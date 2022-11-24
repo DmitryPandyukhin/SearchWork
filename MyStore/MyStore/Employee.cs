@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MyStore
 {
@@ -16,27 +17,14 @@ namespace MyStore
         [Required]
         public DateTime BirthDate { get; set; }
         public Sex Sex { get; set; }
-        // Ссылка не подразделение
-        public List<Departament>? Departaments { get; set; }
-        //public virtual ObservableCollection<Order> Orders { get; private set; }
-        public virtual string EmployeeToString1
-        {
-            get
-            {
-                return string.Join(" ",
-                    LastName,
-                    FirstName,
-                    MiddleName,
-                    BirthDate.ToString("dd.MM.yyyy")
-                    );
-            }
-            set { }
-        }
+        // ссылка на отдел: много сотрудников - один отдел
+        public int? DepartamentId { get; set; }
+        public Departament? Departament { get; set; }
     }
     public enum Sex : int
     {
-        unknown = 0,
-        male = 1,
-        female = 2
+        неизвестен = 0,
+        мужской = 1,
+        женский = 2
     }
 }

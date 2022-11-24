@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyStore
@@ -14,20 +12,7 @@ namespace MyStore
         // Ссылка на сотрудника
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-        public virtual string EmployeeToString
-        {
-            get
-            {
-                return string.Join(" ",
-                    Employee?.LastName,
-                    Employee?.FirstName,
-                    Employee?.MiddleName,
-                    Employee?.BirthDate.ToString("dd.MM.yyyy")
-                    );
-            }
-            set { }
-        }
-        // При добавлении нового заказа необходимо выбирать из списка сотрудников
-        public virtual ObservableCollection<Employee>? Employees { get; set; }
+        // один заказ - много тегов
+        public virtual ObservableCollection<Tag>? Tags { get; private set; }
     }
 }

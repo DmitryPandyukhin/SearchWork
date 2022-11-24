@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -7,7 +6,7 @@ namespace MyStore
 {
     public partial class MainWindow : Window
     {
-        ApplicationContext db = new ApplicationContext();
+        MyStoreContext db = new MyStoreContext();
         public MainWindow()
         {
             InitializeComponent();
@@ -22,24 +21,49 @@ namespace MyStore
             //db.Database.EnsureDeleted();
             // гарантируем, что БД создана
             db.Database.EnsureCreated();
-
             // Тестовые данные
             //SeedData();
-
             // загружаем данные из БД
             db.Orders.Load();
             // и устанавливаем данные в качестве контекста
             DataContext = db.Orders.Local.ToObservableCollection();
         }
 
+        private void Employees_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeesWindow EmployeesWindow = new EmployeesWindow();
+            EmployeesWindow.ShowDialog();
+        }
+        private void Departaments_Click(object sender, RoutedEventArgs e)
+        {
+            DepartamentsWindow DepartamentsWindow = new DepartamentsWindow();
+            DepartamentsWindow.ShowDialog();
+        }
+
         private void SeedData()
         {
+            // департаменты
+            Departament dep = new()
+            {
+                Name = "Dep1"
+            };
+            db.Departaments.Add(dep);
+            dep = new()
+            {
+                Name = "Dep2"
+            };
+            db.Departaments.Add(dep);
+            db.SaveChanges();
+
+            // Сотрудники
+            int id = db.Departaments.First().DepartamentId;
             Employee emp = new()
             {
                 LastName = "Ivanov",
                 FirstName = "Ivan",
-                Sex = Sex.male,
-                BirthDate = new System.DateTime(2021, 1, 1)
+                Sex = Sex.мужской,
+                BirthDate = new System.DateTime(2021, 1, 1),
+                DepartamentId = id
             };
             db.Employees.Add(emp);
 
@@ -47,14 +71,15 @@ namespace MyStore
             {
                 LastName = "Petrov",
                 FirstName = "Petr",
-                Sex = Sex.male,
-                BirthDate = new System.DateTime(2020, 1, 1)
+                Sex = Sex.мужской,
+                BirthDate = new System.DateTime(2020, 1, 1),
+                DepartamentId = id
             };
             db.Employees.Add(emp);
-
             db.SaveChanges();
-            int id = db.Employees.First().EmployeeId;
 
+            // Заказы
+            id = db.Employees.First().EmployeeId;
             Order order = new Order() { Number = 123, ProductName = "Product1", EmployeeId = id };
             db.Orders.Add(order);
             db.SaveChanges();
@@ -64,11 +89,8 @@ namespace MyStore
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             db.Employees.Load();
-            ObservableCollection<Employee> list = db.Employees.Local.ToObservableCollection();
-            OrderWindow OrderWindow = new OrderWindow(new Order() 
-            { 
-                Employees = list
-            });
+            
+            OrderWindow OrderWindow = new OrderWindow(new Order());
             if (OrderWindow.ShowDialog() == true)
             {
                 Order Order = OrderWindow.Order;
@@ -90,8 +112,7 @@ namespace MyStore
                 OrderId = order.OrderId,
                 EmployeeId = order.EmployeeId,
                 Number = order.Number,
-                ProductName = order.ProductName,
-                Employees = list
+                ProductName = order.ProductName
             });
 
             if (OrderWindow.ShowDialog() == true)

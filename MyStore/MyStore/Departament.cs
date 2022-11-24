@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MyStore
 {
@@ -6,7 +7,7 @@ namespace MyStore
     {
         public int DepartamentId { get; set; }
         public string? Name { get; set; }
-        // ссылка на сотрудника
-        public List<Employee> Employees { get; set; }
+        // связь с сотрудниками: один отдел - много сотрудников
+        public virtual ObservableCollection<Employee>? Employees { get; private set; }
     }
 }

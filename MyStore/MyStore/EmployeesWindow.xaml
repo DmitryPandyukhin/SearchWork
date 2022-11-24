@@ -1,0 +1,43 @@
+﻿<Window x:Class="MyStore.EmployeesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyStore"
+        mc:Ignorable="d"
+        Title="Сотрудники" Height="450" Width="600">
+        <Window.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5 5 0 2" />
+            </Style>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <ListView x:Name="employeeList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding LastName}">Фамилия</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding FirstName}">Имя</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding MiddleName}">Отчество</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding BirthDate}">Дата рождения</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Sex}">Пол</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Departament.Name}">Подразделение</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                <StackPanel  Orientation="Horizontal">
+                    <Button Click="Add_Click">Добавить</Button>
+                    <Button Click="Edit_Click">Изменить</Button>
+                    <Button Click="Delete_Click">Удалить</Button>
+                </StackPanel>
+                <GroupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <Button IsDefault="True" Click="Accept_Click" >OK</Button>
+                        <Button IsCancel="True" >Отмена</Button>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

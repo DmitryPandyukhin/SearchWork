@@ -2,7 +2,7 @@
 
 namespace MyStore
 {
-    public class ApplicationContext : DbContext
+    public class MyStoreContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<Departament> Departaments { get; set; } = null!;
@@ -10,11 +10,7 @@ namespace MyStore
         public DbSet<Tag> Tags { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=helloapp.db");
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<Departament>().HasMany(e => e.Employees);
+            optionsBuilder.UseSqlite("Data Source=MyStore.db");
         }
     }
 }

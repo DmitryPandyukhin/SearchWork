@@ -9,6 +9,7 @@ namespace MyStore
         // Порядок отображения тегов заказа.
         public int SortNumber { get; set; }
         // ссылка на заказ
-        public List<Order> Orders { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }

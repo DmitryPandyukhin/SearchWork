@@ -3,10 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyStore"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Заказы" Height="300" Width="425">
+        <Window.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5 5 0 2" />
+            </Style>
+        </Window.Resources>
     <Grid>
-
+        <DockPanel>
+            <ListView x:Name="orderList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Number}">Номер</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding ProductName}">Название товара</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding EmployeeToString}">Сотрудник</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <StackPanel  Orientation="Horizontal">
+                <Button Click="Add_Click">Добавить</Button>
+                <Button Click="Edit_Click">Изменить</Button>
+                <Button Click="Delete_Click">Удалить</Button>
+            </StackPanel>
+                <GroupBox Header="Списки">
+                <StackPanel Orientation="Horizontal">
+                    <Button>Сотрудники</Button>
+                    <Button>Отделы</Button>
+                </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

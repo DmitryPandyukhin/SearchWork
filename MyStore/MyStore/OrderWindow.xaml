@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyStore"
         mc:Ignorable="d"
-        Title="Заказ" Height="140" Width="300">
+        Title="Заказ" Height="170" Width="300" WindowStartupLocation="CenterScreen">
         <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />

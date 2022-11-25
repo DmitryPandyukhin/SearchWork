@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyStore"
         mc:Ignorable="d"
-        Title="Подразделения" Height="450" Width="800">
+        Title="Подразделения" Height="300" Width="400" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5 5 0 2" />
@@ -29,8 +29,7 @@
                 </StackPanel>
                 <GroupBox>
                     <StackPanel Orientation="Horizontal">
-                        <Button IsDefault="True" Click="Accept_Click" >OK</Button>
-                        <Button IsCancel="True" >Отмена</Button>
+                        <Button IsCancel="True" >Закрыть</Button>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

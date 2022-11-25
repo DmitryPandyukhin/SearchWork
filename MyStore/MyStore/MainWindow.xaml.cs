@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+
 namespace MyStore
 {
     public partial class MainWindow : Window
@@ -23,21 +25,6 @@ namespace MyStore
             db.Database.EnsureCreated();
             // Тестовые данные
             //SeedData();
-            // загружаем данные из БД
-            db.Orders.Load();
-            // и устанавливаем данные в качестве контекста
-            DataContext = db.Orders.Local.ToObservableCollection();
-        }
-
-        private void Employees_Click(object sender, RoutedEventArgs e)
-        {
-            EmployeesListWindow EmployeesWindow = new EmployeesListWindow();
-            EmployeesWindow.ShowDialog();
-        }
-        private void Departaments_Click(object sender, RoutedEventArgs e)
-        {
-            DepartamentsListWindow DepartamentsWindow = new DepartamentsListWindow();
-            DepartamentsWindow.ShowDialog();
         }
 
         private void SeedData()
@@ -84,60 +71,20 @@ namespace MyStore
             db.Orders.Add(order);
             db.SaveChanges();
         }
-
-        // добавление
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void Orders_Click(object sender, RoutedEventArgs e)
         {
-            db.Employees.Load();
-            
-            OrderWindow OrderWindow = new OrderWindow(new Order());
-            if (OrderWindow.ShowDialog() == true)
-            {
-                Order Order = OrderWindow.Order;
-                db.Orders.Add(Order);
-                db.SaveChanges();
-            }
+            OrdersListWindow OrdersListWindow = new ();
+            OrdersListWindow.ShowDialog();
         }
-        // редактирование
-        private void Edit_Click(object sender, RoutedEventArgs e)
+        private void Employees_Click(object sender, RoutedEventArgs e)
         {
-            // получаем выделенный объект
-            Order? order = orderList.SelectedItem as Order;
-            // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            ObservableCollection<Employee> list = db.Employees.Local.ToObservableCollection();
-
-            OrderWindow OrderWindow = new OrderWindow(new Order
-            {
-                OrderId = order.OrderId,
-                EmployeeId = order.EmployeeId,
-                Number = order.Number,
-                ProductName = order.ProductName
-            });
-
-            if (OrderWindow.ShowDialog() == true)
-            {
-                // получаем измененный объект
-                order = db.Orders.Find(OrderWindow.Order.OrderId);
-                if (order != null)
-                {
-                    order.EmployeeId = OrderWindow.Order.EmployeeId;
-                    order.Number = OrderWindow.Order.Number;
-                    order.ProductName = OrderWindow.Order.ProductName;
-                    db.SaveChanges();
-                    orderList.Items.Refresh();
-                }
-            }
+            EmployeesListWindow EmployeesWindow = new ();
+            EmployeesWindow.ShowDialog();
         }
-        // удаление
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Departaments_Click(object sender, RoutedEventArgs e)
         {
-            // получаем выделенный объект
-            Order? order = orderList.SelectedItem as Order;
-            // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            db.Orders.Remove(order);
-            db.SaveChanges();
+            DepartamentsListWindow DepartamentsWindow = new ();
+            DepartamentsWindow.ShowDialog();
         }
     }
 }

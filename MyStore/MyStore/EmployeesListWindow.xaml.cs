@@ -83,10 +83,5 @@ namespace MyStore
             db.Employees.Remove(employee);
             db.SaveChanges();
         }
-
-        void Accept_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
     }
 }

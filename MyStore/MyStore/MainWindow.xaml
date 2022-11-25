@@ -4,37 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Заказы" Height="300" Width="425">
+        Title="Главная форма" Height="300" Width="300" WindowStartupLocation="CenterScreen">
         <Window.Resources>
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="5 5 0 2" />
             </Style>
         </Window.Resources>
     <Grid>
-        <DockPanel>
-            <ListView x:Name="orderList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Number}">Номер</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding ProductName}">Название товара</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding EmployeeToString}">Сотрудник</GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-            <StackPanel  Orientation="Horizontal">
-                <Button Click="Add_Click">Добавить</Button>
-                <Button Click="Edit_Click">Изменить</Button>
-                <Button Click="Delete_Click">Удалить</Button>
-            </StackPanel>
-                <GroupBox Header="Списки">
-                <StackPanel Orientation="Horizontal">
-                        <Button >Заказы</Button>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button Name ="Orders_Button" Click="Orders_Click" >Заказы</Button>
                         <Button Click="Employees_Click">Сотрудники</Button>
                         <Button Click="Departaments_Click">Подразделения</Button>
-                </StackPanel>
-                </GroupBox>
             </StackPanel>
-        </DockPanel>
     </Grid>
 </Window>

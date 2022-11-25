@@ -74,10 +74,5 @@ namespace MyStore
             db.Departaments.Remove(departament);
             db.SaveChanges();
         }
-
-        void Accept_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
     }
 }

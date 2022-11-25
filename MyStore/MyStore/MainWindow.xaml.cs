@@ -20,11 +20,11 @@ namespace MyStore
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // пересоздаем БД
-            //db.Database.EnsureDeleted();
+            db.Database.EnsureDeleted();
             // гарантируем, что БД создана
             db.Database.EnsureCreated();
             // Тестовые данные
-            //SeedData();
+            SeedData();
         }
 
         private void SeedData()
@@ -78,7 +78,9 @@ namespace MyStore
         }
         private void Employees_Click(object sender, RoutedEventArgs e)
         {
-            EmployeesListWindow EmployeesWindow = new ();
+            db.Employees.Load();
+            ObservableCollection<Employee> employeeList = db.Employees.Local.ToObservableCollection();
+            EmployeesListWindow EmployeesWindow = new(employeeList);
             EmployeesWindow.ShowDialog();
         }
         private void Departaments_Click(object sender, RoutedEventArgs e)

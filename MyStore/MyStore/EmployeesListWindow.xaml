@@ -21,15 +21,17 @@
                         <GridViewColumn DisplayMemberBinding="{Binding MiddleName}">Отчество</GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding BirthDate}">Дата рождения</GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding Sex}">Пол</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Departament.Name}">Подразделение</GridViewColumn>
+                        <GridViewColumn>Подразделение</GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
-                    <Button Click="Add_Click">Добавить</Button>
-                    <Button Click="Edit_Click">Изменить</Button>
-                    <Button Click="Delete_Click">Удалить</Button>
+                    <Button Command="{Binding AddCommand}" >Добавить</Button>
+                    <Button Command="{Binding EditCommand}"
+                    CommandParameter="{Binding ElementName=employeesList, Path=SelectedItem}">Изменить</Button>
+                    <Button Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=usersList, Path=SelectedItem}">Удалить</Button>
                 </StackPanel>
                 <GroupBox>
                     <StackPanel Orientation="Horizontal">

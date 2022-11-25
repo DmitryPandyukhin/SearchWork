@@ -6,10 +6,10 @@ namespace MyStore
     /// <summary>
     /// Логика взаимодействия для DepartamentsWindow.xaml
     /// </summary>
-    public partial class DepartamentsWindow : Window
+    public partial class DepartamentsListWindow : Window
     {
         MyStoreContext db = new MyStoreContext();
-        public DepartamentsWindow()
+        public DepartamentsListWindow()
         {
             InitializeComponent();
 
@@ -26,60 +26,53 @@ namespace MyStore
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            /*db.Employees.Load();
-            ObservableCollection<Employee> list = db.Employees.Local.ToObservableCollection();
-            OrderWindow OrderWindow = new OrderWindow(new Order()
+            db.Employees.Load();
+
+            DepartamentWindow DepartamentWindow = new DepartamentWindow(new Departament());
+            if (DepartamentWindow.ShowDialog() == true)
             {
-                Employees = list
-            });
-            if (OrderWindow.ShowDialog() == true)
-            {
-                Order Order = OrderWindow.Order;
-                db.Orders.Add(Order);
+                Departament Departament = DepartamentWindow.Departament;
+                db.Departaments.Add(Departament);
                 db.SaveChanges();
-            }*/
+            }
         }
         // редактирование
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            /*Order? order = orderList.SelectedItem as Order;
+            Departament? departament = departamentList.SelectedItem as Departament;
             // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            ObservableCollection<Employee> list = db.Employees.Local.ToObservableCollection();
+            if (departament is null) return;
 
-            OrderWindow OrderWindow = new OrderWindow(new Order
+            DepartamentWindow DepartamentWindow = new DepartamentWindow(new Departament
             {
-                OrderId = order.OrderId,
-                EmployeeId = order.EmployeeId,
-                Number = order.Number,
-                ProductName = order.ProductName,
-                Employees = list
+                DepartamentId = departament.DepartamentId,
+                Name = departament.Name
             });
 
-            if (OrderWindow.ShowDialog() == true)
+            if (DepartamentWindow.ShowDialog() == true)
             {
                 // получаем измененный объект
-                order = db.Orders.Find(OrderWindow.Order.OrderId);
-                if (order != null)
+                departament = db.Departaments.Find(DepartamentWindow.Departament.DepartamentId);
+                if (departament != null)
                 {
-                    order.EmployeeId = OrderWindow.Order.EmployeeId;
-                    order.Number = OrderWindow.Order.Number;
-                    order.ProductName = OrderWindow.Order.ProductName;
+                    departament.Name = DepartamentWindow.Departament.Name;
+
                     db.SaveChanges();
-                    orderList.Items.Refresh();
-                }*/
+                    departamentList.Items.Refresh();
+                }
+            }
         }
 
         // удаление
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            /*Order? order = orderList.SelectedItem as Order;
+            Departament? departament = departamentList.SelectedItem as Departament;
             // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            db.Orders.Remove(order);
-            db.SaveChanges();*/
+            if (departament is null) return;
+            db.Departaments.Remove(departament);
+            db.SaveChanges();
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)

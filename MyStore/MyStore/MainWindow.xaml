@@ -29,8 +29,9 @@
             </StackPanel>
                 <GroupBox Header="Списки">
                 <StackPanel Orientation="Horizontal">
-                    <Button Click="Employees_Click">Сотрудники</Button>
-                    <Button Click="Departaments_Click">Отделы</Button>
+                        <Button >Заказы</Button>
+                        <Button Click="Employees_Click">Сотрудники</Button>
+                        <Button Click="Departaments_Click">Подразделения</Button>
                 </StackPanel>
                 </GroupBox>
             </StackPanel>

@@ -7,10 +7,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DepartamentsWindow.xaml.cs">
+    <Compile Update="DepartamentsListWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="EmployeesWindow.xaml.cs">
+    <Compile Update="DepartamentWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EmployeesListWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EmployeeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="OrderWindow.xaml.cs">
@@ -18,10 +24,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="DepartamentsWindow.xaml">
+    <Page Update="DepartamentsListWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="EmployeesWindow.xaml">
+    <Page Update="DepartamentWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EmployeesListWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EmployeeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

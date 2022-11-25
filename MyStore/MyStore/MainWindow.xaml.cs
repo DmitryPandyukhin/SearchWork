@@ -31,12 +31,12 @@ namespace MyStore
 
         private void Employees_Click(object sender, RoutedEventArgs e)
         {
-            EmployeesWindow EmployeesWindow = new EmployeesWindow();
+            EmployeesListWindow EmployeesWindow = new EmployeesListWindow();
             EmployeesWindow.ShowDialog();
         }
         private void Departaments_Click(object sender, RoutedEventArgs e)
         {
-            DepartamentsWindow DepartamentsWindow = new DepartamentsWindow();
+            DepartamentsListWindow DepartamentsWindow = new DepartamentsListWindow();
             DepartamentsWindow.ShowDialog();
         }
 

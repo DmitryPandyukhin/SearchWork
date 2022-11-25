@@ -1,4 +1,4 @@
-﻿<Window x:Class="MyStore.EmployeesWindow"
+﻿<Window x:Class="MyStore.EmployeesListWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,7 +13,7 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="employeeList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
+            <ListView x:Name="employeesList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding LastName}">Фамилия</GridViewColumn>

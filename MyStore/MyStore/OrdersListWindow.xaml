@@ -13,15 +13,25 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="ordersList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Orders}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Number}">Номер</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding ProductName}">Название товара</GridViewColumn>
-                        <GridViewColumn>Сотрудник</GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid x:Name="ordersList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Orders }"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                    <DataGridTextColumn Header="Название товара" Binding="{Binding ProductName}"/>
+                    <DataGridTextColumn Header="Сотрудник" Binding="{ Binding Employee.FirstName }"/>
+
+                    <DataGridTextColumn Header="Сотрудник">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding Converter="{local:ConverterForColumns}">
+                                <Binding Path="Employee.LastName" />
+                                <Binding Path="Employee.FirstName" />
+                                <Binding Path="Employee.MiddleName" />
+                                <Binding Path="Employee.BirthDate" StringFormat="dd-MM-yyyy" />
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <!-- Number1, UpdateSourceTrigger=PropertyChanged-->

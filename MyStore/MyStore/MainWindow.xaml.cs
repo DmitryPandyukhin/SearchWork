@@ -29,39 +29,16 @@ namespace MyStore
         private void SeedData()
         {
             // департаменты
-            Departament dep = new()
-            {
-                Name = "Dep1"
-            };
-            db.Departaments.Add(dep);
-            dep = new()
-            {
-                Name = "Dep2"
-            };
-            db.Departaments.Add(dep);
+            Departament dep1 = new(){ Name = "Dep1" };
+            Departament dep2 = new(){ Name = "Dep2" };
+            db.Departaments.AddRange(dep1, dep2);
             db.SaveChanges();
 
             // Сотрудники
             int id = db.Departaments.First().DepartamentId;
-            Employee emp = new()
-            {
-                LastName = "Ivanov",
-                FirstName = "Ivan",
-                Sex = Sex.мужской,
-                BirthDate = new System.DateTime(2021, 1, 1),
-                DepartamentId = id
-            };
-            db.Employees.Add(emp);
-
-            emp = new()
-            {
-                LastName = "Petrov",
-                FirstName = "Petr",
-                Sex = Sex.мужской,
-                BirthDate = new System.DateTime(2020, 1, 1),
-                DepartamentId = id
-            };
-            db.Employees.Add(emp);
+            Employee emp1 = new(){ LastName = "Ivanov", FirstName = "Ivan", Sex = Sex.мужской, BirthDate = new System.DateTime(2021, 1, 1), DepartamentId = id };
+            Employee emp2 = new(){ LastName = "Petrov", FirstName = "Petr", Sex = Sex.мужской, BirthDate = new System.DateTime(2020, 1, 1), DepartamentId = id };
+            db.Employees.AddRange(emp1, emp2);
             db.SaveChanges();
 
             // Заказы

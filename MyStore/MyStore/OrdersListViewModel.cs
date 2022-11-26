@@ -1,5 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace MyStore
 {
@@ -12,7 +17,9 @@ namespace MyStore
         public ObservableCollection<Order> Orders { get; set; }
         public OrdersListViewModel()
         {
-            db.Orders.Load();
+            db.Orders
+                .Include(o => o.Employee)
+                .Load();
             Orders = db.Orders.Local.ToObservableCollection();
         }
         // команда добавления

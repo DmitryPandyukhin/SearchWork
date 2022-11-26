@@ -76,7 +76,6 @@ namespace MyStore
                 OnPropertyChanged("DepartamentId");
             }
         }
-
         public Departament? Departament { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

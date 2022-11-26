@@ -10,12 +10,10 @@ namespace MyStore
     /// </summary>
     public partial class EmployeesListWindow : Window
     {
-        public ObservableCollection<Employee> EmployeesList { get; private set; }
-        public EmployeesListWindow(ObservableCollection<Employee> employeesList)
+        public EmployeesListWindow()
         {
             InitializeComponent();
-            EmployeesList = employeesList;
-            DataContext = EmployeesList;
+            DataContext = new EmployeesListViewModel();
         }
     }
 }

@@ -13,7 +13,7 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="employeesList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
+            <ListView x:Name="employeesList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Employees }">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding LastName}">Фамилия</GridViewColumn>
@@ -28,10 +28,9 @@
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <Button Command="{Binding AddCommand}" >Добавить</Button>
-                    <Button Command="{Binding EditCommand}"
-                    CommandParameter="{Binding ElementName=employeesList, Path=SelectedItem}">Изменить</Button>
+                    <Button Command="{Binding EditCommand}" CommandParameter="{Binding ElementName=employeesList, Path=SelectedItem}">Изменить</Button>
                     <Button Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding ElementName=usersList, Path=SelectedItem}">Удалить</Button>
+                    CommandParameter="{Binding ElementName=employeesList, Path=SelectedItem}">Удалить</Button>
                 </StackPanel>
                 <GroupBox>
                     <StackPanel Orientation="Horizontal">

@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace MyStore
 {
@@ -20,11 +19,11 @@ namespace MyStore
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // пересоздаем БД
-            db.Database.EnsureDeleted();
+            //db.Database.EnsureDeleted();
             // гарантируем, что БД создана
             db.Database.EnsureCreated();
             // Тестовые данные
-            SeedData();
+            //SeedData();
         }
 
         private void SeedData()
@@ -73,20 +72,15 @@ namespace MyStore
         }
         private void Orders_Click(object sender, RoutedEventArgs e)
         {
-            OrdersListWindow OrdersListWindow = new ();
-            OrdersListWindow.ShowDialog();
+            new OrdersListWindow().ShowDialog();
         }
         private void Employees_Click(object sender, RoutedEventArgs e)
         {
-            db.Employees.Load();
-            ObservableCollection<Employee> employeeList = db.Employees.Local.ToObservableCollection();
-            EmployeesListWindow EmployeesWindow = new(employeeList);
-            EmployeesWindow.ShowDialog();
+            new EmployeesListWindow().ShowDialog();
         }
         private void Departaments_Click(object sender, RoutedEventArgs e)
         {
-            DepartamentsListWindow DepartamentsWindow = new ();
-            DepartamentsWindow.ShowDialog();
+            new DepartamentsListWindow().ShowDialog();
         }
     }
 }

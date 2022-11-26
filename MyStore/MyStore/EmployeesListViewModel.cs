@@ -54,7 +54,7 @@ namespace MyStore
                           MiddleName = employee.MiddleName,
                           BirthDate = employee.BirthDate,
                           Sex = employee.Sex,
-                          Departament = employee.Departament
+                          DepartamentId = employee.DepartamentId
                       };
 
                       EmployeeWindow employeeWindow = new EmployeeWindow(vm);
@@ -66,7 +66,7 @@ namespace MyStore
                           employee.MiddleName = employeeWindow.Employee.MiddleName;
                           employee.BirthDate = employeeWindow.Employee.BirthDate;
                           employee.Sex = employeeWindow.Employee.Sex;
-                          employee.Departament = employeeWindow.Employee.Departament;
+                          employee.DepartamentId = employeeWindow.Employee.DepartamentId;
                           db.Entry(employee).State = EntityState.Modified;
                           db.SaveChanges();
                       }
@@ -78,15 +78,6 @@ namespace MyStore
         {
             get
             {
-                /*return deleteCommand ??
-                  (deleteCommand = new RelayCommand((selectedItem) =>
-                  {
-                      // получаем выделенный объект
-                      User? user = selectedItem as User;
-                      if (user == null) return;
-                      db.Users.Remove(user);
-                      db.SaveChanges();
-                  }));*/
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {

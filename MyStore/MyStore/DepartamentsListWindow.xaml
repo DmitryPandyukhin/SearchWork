@@ -13,19 +13,21 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="departamentList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{Binding}">
+            <ListView x:Name="departamentsList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Departaments }">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Name}">Название</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding }">Руководитель</GridViewColumn>
+                        <GridViewColumn >Руководитель</GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
-                    <Button Click="Add_Click">Добавить</Button>
-                    <Button Click="Edit_Click">Изменить</Button>
-                    <Button Click="Delete_Click">Удалить</Button>
+                    <Button Command="{Binding AddCommand}" >Добавить</Button>
+                    <Button Command="{Binding EditCommand}"
+                    CommandParameter="{Binding ElementName=departamentsList, Path=SelectedItem}">Изменить</Button>
+                    <Button Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=departamentsList, Path=SelectedItem}">Удалить</Button>
                 </StackPanel>
                 <GroupBox>
                     <StackPanel Orientation="Horizontal">

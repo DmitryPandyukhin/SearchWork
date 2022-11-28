@@ -18,18 +18,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
                     <DataGridTextColumn Header="Название товара" Binding="{Binding ProductName}"/>
-                    <DataGridTextColumn Header="Сотрудник" Binding="{ Binding Employee.FirstName }"/>
-
-                    <DataGridTextColumn Header="Сотрудник">
-                        <DataGridTextColumn.Binding>
-                            <MultiBinding Converter="{local:ConverterForColumns}">
-                                <Binding Path="Employee.LastName" />
-                                <Binding Path="Employee.FirstName" />
-                                <Binding Path="Employee.MiddleName" />
-                                <Binding Path="Employee.BirthDate" StringFormat="dd-MM-yyyy" />
-                            </MultiBinding>
-                        </DataGridTextColumn.Binding>
-                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">

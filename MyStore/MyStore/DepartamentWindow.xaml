@@ -34,16 +34,18 @@
         <StackPanel >
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Название:</Label>
-                <TextBox Name="Name" Text="{Binding Name}" ></TextBox>
+                <TextBox Name="Name" Text="{Binding Departament.Name}" ></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Руководитель:</Label>
-                <ComboBox Name="Employee" ></ComboBox>
+                <ComboBox ItemsSource="{Binding Path=Departament.Employees}" 
+                    SelectedItem="{Binding Path=ManagerItem}"
+                    DisplayMemberPath="FullName"/>
             </StackPanel>
 
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button IsDefault="True" Click="Accept_Click" >OK</Button>
+            <Button IsDefault="True" Command="{ Binding OkCommand }">OK</Button>
             <Button IsCancel="True" >Отмена</Button>
         </StackPanel>
     </Grid>

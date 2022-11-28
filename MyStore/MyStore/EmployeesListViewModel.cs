@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyStore
@@ -12,7 +13,9 @@ namespace MyStore
         public ObservableCollection<Employee> Employees { get; set; }
         public EmployeesListViewModel()
         {
-            db.Employees.Load();
+            db.Employees
+                .Include(e => e.Departament)
+                .Load();
             Employees = db.Employees.Local.ToObservableCollection();
         }
         // команда добавления
@@ -23,10 +26,23 @@ namespace MyStore
                 return addCommand ??
                   (addCommand = new RelayCommand((o) =>
                   {
-                      EmployeeWindow employeeWindow = new EmployeeWindow(new Employee());
-                      if (employeeWindow.ShowDialog() == true)
+                      EmployeeViewModel employeeViewModel = new(
+                          new Employee()
+                          {
+                              BirthDate = DateTime.Now.Date
+                          });
+                      if (employeeViewModel.Open() == true)
                       {
-                          Employee Employee = employeeWindow.Employee;
+                          Employee Employee = new()
+                          {
+                              LastName = employeeViewModel.Employee.LastName,
+                              FirstName = employeeViewModel.Employee.FirstName,
+                              MiddleName = employeeViewModel.Employee.MiddleName,
+                              BirthDate = employeeViewModel.Employee.BirthDate,
+                              Sex = employeeViewModel.Employee.Sex,
+                              DepartamentId = employeeViewModel.Employee.DepartamentId
+                          };
+
                           db.Employees.Add(Employee);
                           db.SaveChanges();
                       }
@@ -57,16 +73,16 @@ namespace MyStore
                           DepartamentId = employee.DepartamentId
                       };
 
-                      EmployeeWindow employeeWindow = new EmployeeWindow(vm);
+                      EmployeeViewModel employeeViewModel = new(vm);
 
-                      if (employeeWindow.ShowDialog() == true)
+                      if (employeeViewModel.Open() == true)
                       {
-                          employee.LastName = employeeWindow.Employee.LastName;
-                          employee.FirstName = employeeWindow.Employee.FirstName;
-                          employee.MiddleName = employeeWindow.Employee.MiddleName;
-                          employee.BirthDate = employeeWindow.Employee.BirthDate;
-                          employee.Sex = employeeWindow.Employee.Sex;
-                          employee.DepartamentId = employeeWindow.Employee.DepartamentId;
+                          employee.LastName = employeeViewModel.Employee.LastName;
+                          employee.FirstName = employeeViewModel.Employee.FirstName;
+                          employee.MiddleName = employeeViewModel.Employee.MiddleName;
+                          employee.BirthDate = employeeViewModel.Employee.BirthDate;
+                          employee.Sex = employeeViewModel.Employee.Sex;
+                          employee.DepartamentId = employeeViewModel.Employee.DepartamentId;
                           db.Entry(employee).State = EntityState.Modified;
                           db.SaveChanges();
                       }

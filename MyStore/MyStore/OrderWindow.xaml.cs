@@ -3,17 +3,10 @@ namespace MyStore
 {
     public partial class OrderWindow : Window
     {
-        public Order Order { get; private set; }
-        public OrderWindow(Order order)
+        public OrderWindow(object dataContext)
         {
             InitializeComponent();
-            Order = order;
-            DataContext = Order;
-        }
-
-        void Accept_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
+            DataContext = dataContext;
         }
     }
 }

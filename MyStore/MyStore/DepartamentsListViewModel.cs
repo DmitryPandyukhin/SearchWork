@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System;
 
 namespace MyStore
 {
@@ -12,7 +15,9 @@ namespace MyStore
         public ObservableCollection<Departament> Departaments { get; set; }
         public DepartamentsListViewModel()
         {
-            db.Departaments.Load();
+            db.Departaments
+                .Include(d => d.Employees)
+                .Load();
             Departaments = db.Departaments.Local.ToObservableCollection();
         }
         // команда добавления
@@ -23,10 +28,15 @@ namespace MyStore
                 return addCommand ??
                   (addCommand = new RelayCommand((o) =>
                   {
-                      DepartamentWindow departamentWindow = new(new Departament());
-                      if (departamentWindow.ShowDialog() == true)
+                      DepartamentViewModel departamentViewModel = new(new Departament());
+                      if (departamentViewModel.Open() == true)
                       {
-                          Departament departament = departamentWindow.Departament;
+                          Departament departament = new()
+                          {
+                              Name = departamentViewModel.Departament.Name,
+                              ManagerId = departamentViewModel.Departament.ManagerId
+                          };
+
                           db.Departaments.Add(departament);
                           db.SaveChanges();
                       }
@@ -48,14 +58,16 @@ namespace MyStore
 
                       Departament vm = new Departament
                       {
-                          Name = departament.Name
+                          Name = departament.Name,
+                          ManagerId = departament.ManagerId
                       };
 
-                      DepartamentWindow departamentWindow = new DepartamentWindow(vm);
+                      DepartamentViewModel departamentWindow = new (vm);
 
-                      if (departamentWindow.ShowDialog() == true)
+                      if (departamentWindow.Open() == true)
                       {
                           departament.Name = departamentWindow.Departament.Name;
+                          departament.ManagerId = departamentWindow.Departament.ManagerId;
                           db.Entry(departament).State = EntityState.Modified;
                           db.SaveChanges();
                       }

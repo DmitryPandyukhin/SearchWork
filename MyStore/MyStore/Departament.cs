@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace MyStore
 {
     public class Departament : INotifyPropertyChanged
     {
-        public string? name;
         public int DepartamentId { get; set; }
+
+        private string? name;
         public string? Name
         {
             get { return name; }
@@ -18,8 +20,34 @@ namespace MyStore
                 OnPropertyChanged("Name");
             }
         }
-        // связь с сотрудниками: один отдел - много сотрудников
-        public virtual ObservableCollection<Employee>? Employees { get; private set; }
+
+        private int managerId;
+        // Ссылка на руководителя.
+        public int ManagerId 
+        { 
+            get
+            {
+                return managerId;
+            }
+            set
+            {
+                managerId = value;
+                OnPropertyChanged("ManagerId");
+            } 
+        }
+
+        private Employee? manager;
+        [ForeignKey("ManagerId")]
+        public Employee? Manager
+        {
+            get{ return manager; }
+            set{
+                manager = value;
+                OnPropertyChanged("Manager");
+            }
+        }
+        [InverseProperty("Departament")]
+        public virtual ObservableCollection<Employee> Employees { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

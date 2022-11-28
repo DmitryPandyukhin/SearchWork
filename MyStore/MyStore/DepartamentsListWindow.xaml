@@ -13,14 +13,14 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="departamentsList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Departaments }">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}">Название</GridViewColumn>
-                        <GridViewColumn >Руководитель</GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid x:Name="departamentsList"  HorizontalAlignment="Stretch" DockPanel.Dock="Top" 
+                      ItemsSource="{ Binding Departaments }"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Руководитель" Binding="{Binding Manager.FullName}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <Button Command="{Binding AddCommand}" >Добавить</Button>

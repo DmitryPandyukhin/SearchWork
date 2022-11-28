@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -30,10 +32,15 @@ namespace MyStore
                 return addCommand ??
                   (addCommand = new RelayCommand((o) =>
                   {
-                      OrderWindow orderWindow = new (new Order());
-                      if (orderWindow.ShowDialog() == true)
+                      OrderViewModel orderViewModel = new (new());
+                      if (orderViewModel.Open() == true)
                       {
-                          Order order = orderWindow.Order;
+                          Order order = new()
+                          {
+                              Number = orderViewModel.Order.Number,
+                              ProductName = orderViewModel.Order.ProductName,
+                              EmployeeId = orderViewModel.Order?.Employee?.EmployeeId
+                          };
                           db.Orders.Add(order);
                           db.SaveChanges();
                       }
@@ -53,20 +60,19 @@ namespace MyStore
                       // если ни одного объекта не выделено, выходим
                       if (order is null) return;
 
-                      Order vm = new Order
+                      Order vm = new()
                       {
                           Number = order.Number,
                           ProductName = order.ProductName,
                           EmployeeId = order.EmployeeId
                       };
 
-                      OrderWindow orderWindow = new (vm);
-
-                      if (orderWindow.ShowDialog() == true)
+                      OrderViewModel orderViewModel = new(vm);
+                      if (orderViewModel.Open() == true)
                       {
-                          order.Number = orderWindow.Order.Number;
-                          order.ProductName = orderWindow.Order.ProductName;
-                          order.EmployeeId = orderWindow.Order.EmployeeId;
+                          order.Number = orderViewModel.Order.Number;
+                          order.ProductName = orderViewModel.Order.ProductName;
+                          order.EmployeeId = orderViewModel.Order?.Employee?.EmployeeId;
 
                           db.Entry(order).State = EntityState.Modified;
                           db.SaveChanges();

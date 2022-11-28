@@ -7,16 +7,10 @@ namespace MyStore
     /// </summary>
     public partial class DepartamentWindow : Window
     {
-        public Departament Departament { get; private set; }
-        public DepartamentWindow(Departament departament)
+        public DepartamentWindow(object dataContext)
         {
             InitializeComponent();
-            Departament = departament;
-            DataContext = Departament;
-        }
-        void Accept_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
+            DataContext = dataContext;
         }
     }
 }

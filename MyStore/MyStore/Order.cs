@@ -7,10 +7,9 @@ namespace MyStore
 {
     public class Order : INotifyPropertyChanged
     {
-        public int number;
-        public string? productName;
-        public int? employeeId;
         public int OrderId { get; set; }
+
+        private int number;
         public int Number 
         {
             get { return number; }
@@ -20,6 +19,8 @@ namespace MyStore
                 OnPropertyChanged("Number");
             }
         }
+
+        private string? productName;
         [Required]
         public string? ProductName
         {
@@ -30,17 +31,11 @@ namespace MyStore
                 OnPropertyChanged("ProductName");
             }
         }
+
+        public int? EmployeeId { get; set; }
         // Ссылка на сотрудника
-        public int? EmployeeId
-        {
-            get { return employeeId; }
-            set
-            {
-                employeeId = value;
-                OnPropertyChanged("EmployeeId");
-            }
-        }
-        public Employee? Employee { get; set; }
+        public Employee? Employee { get; set;}
+
         // один заказ - много тегов
         public virtual ObservableCollection<Tag>? Tags { get; private set; }
 

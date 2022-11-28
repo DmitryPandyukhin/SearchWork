@@ -13,18 +13,19 @@
     </Window.Resources>
     <Grid>
         <DockPanel>
-            <ListView x:Name="employeesList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Employees }">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding LastName}">Фамилия</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding FirstName}">Имя</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding MiddleName}">Отчество</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding BirthDate}">Дата рождения</GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Sex}">Пол</GridViewColumn>
-                        <GridViewColumn>Подразделение</GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid x:Name="employeesList"  HorizontalAlignment="Stretch" DockPanel.Dock="Top" 
+                      ItemsSource="{ Binding Employees }"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate,
+                        StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Пол" Binding="{Binding Sex}"/>
+                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Departament.Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <Button Command="{Binding AddCommand}" >Добавить</Button>

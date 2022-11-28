@@ -29,22 +29,21 @@
             <StackPanel >
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110">Номер:</Label>
-                <TextBox Name="TextBox1" Text="{Binding Number}" ></TextBox>
+                <TextBox Name="TextBox1" Text="{Binding Order.Number}" ></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110" >Название товара:</Label>
-                <TextBox Name="TextBox2" Text="{Binding ProductName}"></TextBox>
+                <TextBox Name="TextBox2" Text="{Binding Order.ProductName}"></TextBox>
                 </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                    <Label MinWidth="110" >Сотрудник:</Label>
-                <ComboBox ItemsSource="{Binding Path=Employees}"
-                    DisplayMemberPath="EmployeeToString1"
-                    SelectedValuePath="EmployeeId"
-                    SelectedValue="{Binding EmployeeId}" ></ComboBox>
-                </StackPanel>
+                        <Label MinWidth="110" >Сотрудник:</Label>
+                        <ComboBox ItemsSource="{Binding Path = Employees}" 
+                            SelectedItem="{Binding Path=EmployeeItem}"
+                            DisplayMemberPath="FullName"/>
+                    </StackPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button IsDefault="True" Click="Accept_Click" >OK</Button>
+                <Button IsDefault="True" Command="{ Binding OkCommand }" >OK</Button>
                 <Button IsCancel="True" >Отмена</Button>
             </StackPanel>
     </Grid>

@@ -3,39 +3,48 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace MyStore
 {
     public class OrderViewModel : INotifyPropertyChanged
     {
-        MyStoreContext db = new();
         RelayCommand? okCommand;
         public Order Order { get; set; }
         OrderWindow? OrderWindow { get; set; }
-        public ObservableCollection<Employee> Employees { get; set; }
+        public ObservableCollection<Employee>? Employees { get; set; }
 
         public OrderViewModel(Order order)
         {
-            // Загружаем справочник сотрудников
-            db.Employees.Load();
-            Employees = db.Employees.Local.ToObservableCollection();
-
-            // Получаем выранного сотрудника
-            order.Employee = Employees.FirstOrDefault(e => e.EmployeeId == order.EmployeeId);
-
-            // Добавляем в контекст
             Order = order;
         }
+
+        private void PrepareData()
+        {
+            using (MyStoreContext db = new())
+            {
+                // Загружаем справочник сотрудников
+                db.Employees.Load();
+                Employees = db.Employees.Local.ToObservableCollection();
+
+                // Устанавливаем сотрудника
+                Order.Employee = Employees.Where(e => e.EmployeeId == Order.EmployeeId).FirstOrDefault();
+
+                // Получаем теги
+                db.Tags.Where(t => t.OrderId == Order.OrderId).Load();
+                Order.Tags = db.Tags.Local.ToObservableCollection();
+            }
+        }
+
         // Открываем окно работы с заказом
         public bool Open()
         {
-            // Передача контекста
-            OrderWindow = new(this);
+            PrepareData();
 
-            if (OrderWindow.ShowDialog() == true)
-                return true;
-            else
-                return false;
+            OrderWindow = new(this);
+            bool dialogResult = OrderWindow.ShowDialog() ?? false;
+            
+            return dialogResult;
         }
 
         // Работаем со справочником сотрудников
@@ -45,11 +54,34 @@ namespace MyStore
             set
             {
                 if (Order.Employee == value) return;
-                Order.Employee = value;
                 Order.EmployeeId = value.EmployeeId;
 
                 // Свойство изменено
                 OnPropertyChanged("EmployeeItem");
+            }
+        }
+
+        // Работаем с тегами
+        public string TagsStringEditable
+        {
+            get { return Order.TagsString ?? ""; }
+            set
+            {
+                Order.Tags = new();
+                if ((Order.TagsString == value) || (value?.Trim() == "") || (value == null)) return;
+
+                string[] tags = value.Split(";");
+                for (int i = 0; i < tags.Length; i++)
+                {
+                    Order.Tags.Add(new Tag()
+                    {
+                        Name = tags[i].Trim(),
+                        SortNumber = i
+                    });
+                }
+
+                // Свойство изменено
+                OnPropertyChanged("TagsString2");
             }
         }
 

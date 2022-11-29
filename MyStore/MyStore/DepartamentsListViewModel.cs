@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System;
 
 namespace MyStore
 {
@@ -19,6 +16,7 @@ namespace MyStore
                 .Include(d => d.Employees)
                 .Load();
             Departaments = db.Departaments.Local.ToObservableCollection();
+            db.Employees.Load();
         }
         // команда добавления
         public RelayCommand AddCommand

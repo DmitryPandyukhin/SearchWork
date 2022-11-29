@@ -35,7 +35,6 @@ namespace MyStore
                 OnPropertyChanged("ManagerId");
             } 
         }
-
         private Employee? manager;
         [ForeignKey("ManagerId")]
         public Employee? Manager

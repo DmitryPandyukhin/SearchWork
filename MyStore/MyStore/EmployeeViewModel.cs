@@ -10,39 +10,43 @@ namespace MyStore
 {
     public class EmployeeViewModel
     {
-        MyStoreContext db = new();
-        public ObservableCollection<Departament> Departaments { get; set; }
-        public ObservableCollection<string?> Sexs { get; set; }
+        public ObservableCollection<Departament>? Departaments { get; set; }
+        public ObservableCollection<string?>? Sexs { get; set; }
         public Employee Employee{ get; set; }
         EmployeeWindow? EmployeeWindow { get; set; }
         RelayCommand? okCommand;
         public EmployeeViewModel(Employee employee) 
         {
-            // Загружаем справочник подразделений
-            db.Departaments.Load();
-            Departaments = db.Departaments.Local.ToObservableCollection();
-            // Устанавливаем выбранное подразделение
-            employee.Departament = Departaments.FirstOrDefault(d => d.DepartamentId == employee.DepartamentId);
-
-            // Получаем спраочник половой принадлежности.
-            Sexs = new (Enum.GetNames(typeof(Sex)));
-            Sexs.Insert(0, null);
-
-
-            // Добавляем в контекст
             Employee = employee;
+        }
+
+        private void PrepareData()
+        {
+            using (MyStoreContext db = new())
+            {
+                // Загружаем справочник подразделений
+                db.Departaments.Load();
+                Departaments = db.Departaments.Local.ToObservableCollection();
+            }
+
+            // Устанавливаем выбранное подразделение
+            Employee.Departament = Departaments.FirstOrDefault(d => d.DepartamentId == Employee.DepartamentId);
+
+            // Получаем справочник половой принадлежности.
+            Sexs = new(Enum.GetNames(typeof(Sex)));
+            Sexs.Insert(0, null);
         }
 
         // Открываем окно работы с сотрудником
         public bool Open()
         {
+            PrepareData();
+
             // Передача контекста
             EmployeeWindow = new(this);
+            bool dialogResult = EmployeeWindow.ShowDialog() ?? false;
 
-            if (EmployeeWindow.ShowDialog() == true)
-                return true;
-            else
-                return false;
+            return dialogResult;
         }
 
         // Работаем со справочником подразделений
@@ -52,7 +56,6 @@ namespace MyStore
             set
             {
                 if (Employee.Departament == value) return;
-                Employee.Departament = value;
                 Employee.DepartamentId = value.DepartamentId;
                 OnPropertyChanged("DepartamentItem");
             }

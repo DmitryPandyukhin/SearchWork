@@ -12,21 +12,8 @@
             </Style>
     </Window.Resources>
     <Grid>
-        <DockPanel>
-            <DataGrid x:Name="employeesList"  HorizontalAlignment="Stretch" DockPanel.Dock="Top" 
-                      ItemsSource="{ Binding Employees }"
-                      AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
-                    <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
-                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate,
-                        StringFormat=\{0:dd.MM.yyyy\}}"/>
-                    <DataGridTextColumn Header="Пол" Binding="{Binding Sex}"/>
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Departament.Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <Button Command="{Binding AddCommand}" >Добавить</Button>
                     <Button Command="{Binding EditCommand}" CommandParameter="{Binding ElementName=employeesList, Path=SelectedItem}">Изменить</Button>
@@ -39,6 +26,19 @@
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
+            <DataGrid x:Name="employeesList" DockPanel.Dock="Top" 
+                      ItemsSource="{ Binding Employees }"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate,
+                        StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Пол" Binding="{Binding Sex}"/>
+                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Departament.Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </DockPanel>
     </Grid>
 </Window>

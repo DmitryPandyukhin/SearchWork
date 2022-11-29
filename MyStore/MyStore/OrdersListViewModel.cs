@@ -1,12 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace MyStore
 {
@@ -17,13 +10,21 @@ namespace MyStore
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
         public ObservableCollection<Order> Orders { get; set; }
+
+        
         public OrdersListViewModel()
         {
             db.Orders
                 .Include(o => o.Employee)
+                .Include(o => o.Tags)
                 .Load();
             Orders = db.Orders.Local.ToObservableCollection();
+
+            // Если не загрузить форма не будет обновляться
+            db.Employees.Load();
+            db.Tags.Load();
         }
+
         // команда добавления
         public RelayCommand AddCommand
         {
@@ -39,8 +40,11 @@ namespace MyStore
                           {
                               Number = orderViewModel.Order.Number,
                               ProductName = orderViewModel.Order.ProductName,
-                              EmployeeId = orderViewModel.Order?.Employee?.EmployeeId
+                              EmployeeId = orderViewModel.Order?.EmployeeId
                           };
+                          if (orderViewModel.Order?.Tags?.Count > 0)
+                              order.Tags = orderViewModel.Order?.Tags;
+
                           db.Orders.Add(order);
                           db.SaveChanges();
                       }
@@ -63,6 +67,7 @@ namespace MyStore
                       Order vm = new()
                       {
                           Number = order.Number,
+                          OrderId = order.OrderId,
                           ProductName = order.ProductName,
                           EmployeeId = order.EmployeeId
                       };
@@ -72,7 +77,10 @@ namespace MyStore
                       {
                           order.Number = orderViewModel.Order.Number;
                           order.ProductName = orderViewModel.Order.ProductName;
-                          order.EmployeeId = orderViewModel.Order?.Employee?.EmployeeId;
+                          order.EmployeeId = orderViewModel.Order?.EmployeeId;
+                          order.Tags?.Clear();
+                          if (orderViewModel.Order?.Tags?.Count > 0)
+                            order.Tags = orderViewModel.Order?.Tags;
 
                           db.Entry(order).State = EntityState.Modified;
                           db.SaveChanges();

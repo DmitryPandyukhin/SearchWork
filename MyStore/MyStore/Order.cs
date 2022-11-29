@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace MyStore
 {
@@ -37,7 +39,22 @@ namespace MyStore
         public Employee? Employee { get; set;}
 
         // один заказ - много тегов
-        public virtual ObservableCollection<Tag>? Tags { get; private set; }
+        public virtual ObservableCollection<Tag>? Tags { get; set; }
+        
+        // Отображаемая строка с тегами. Только для чтения.
+        public string? TagsString
+        { 
+            get
+            {
+                var tags = Tags?.Select(t => t.Name)?.ToList<string>();
+
+                string? tagsString = null;
+                if (tags != null)
+                    tagsString = string.Join("; ", tags!);
+
+                return tagsString;
+            } 
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

@@ -12,16 +12,8 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <DockPanel>
-            <DataGrid x:Name="ordersList" HorizontalAlignment="Stretch" DockPanel.Dock="Top" ItemsSource="{ Binding Orders }"
-                      AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
-                    <DataGridTextColumn Header="Название товара" Binding="{Binding ProductName}"/>
-                    <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom">
                 <StackPanel  Orientation="Horizontal">
                     <!-- Number1, UpdateSourceTrigger=PropertyChanged-->
                     <Button Command="{Binding AddCommand }" >Добавить</Button>
@@ -36,6 +28,15 @@
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
+            <DataGrid x:Name="ordersList" DockPanel.Dock="Top" ItemsSource="{ Binding Orders }"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                    <DataGridTextColumn Header="Название товара" Binding="{Binding ProductName}"/>
+                    <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}"/>
+                    <DataGridTextColumn Header="Теги" Binding="{Binding TagsString}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </DockPanel>
     </Grid>
 </Window>

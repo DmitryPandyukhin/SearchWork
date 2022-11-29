@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyStore"
         mc:Ignorable="d"
-        Title="Заказ" Height="170" Width="300" WindowStartupLocation="CenterScreen">
+        Title="Заказ" Height="200" Width="300" WindowStartupLocation="CenterScreen">
         <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -29,18 +29,22 @@
             <StackPanel >
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110">Номер:</Label>
-                <TextBox Name="TextBox1" Text="{Binding Order.Number}" ></TextBox>
+                    <TextBox Name="TextBox1" Text="{Binding Order.Number}" ></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110" >Название товара:</Label>
-                <TextBox Name="TextBox2" Text="{Binding Order.ProductName}"></TextBox>
+                    <TextBox Name="TextBox2" Text="{Binding Order.ProductName}"></TextBox>
                 </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label MinWidth="110" >Сотрудник:</Label>
-                        <ComboBox ItemsSource="{Binding Path = Employees}" 
-                            SelectedItem="{Binding Path=EmployeeItem}"
-                            DisplayMemberPath="FullName"/>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110" >Сотрудник:</Label>
+                    <ComboBox ItemsSource="{Binding Path = Employees}" 
+                        SelectedItem="{Binding Path=EmployeeItem}"
+                        DisplayMemberPath="FullName"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Теги:</Label>
+                <TextBox Text="{Binding TagsStringEditable}" />
+            </StackPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
                 <Button IsDefault="True" Command="{ Binding OkCommand }" >OK</Button>

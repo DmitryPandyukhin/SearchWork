@@ -17,6 +17,8 @@ namespace MyStore
                 .Include(e => e.Departament)
                 .Load();
             Employees = db.Employees.Local.ToObservableCollection();
+
+            db.Departaments.Load();
         }
         // команда добавления
         public RelayCommand AddCommand

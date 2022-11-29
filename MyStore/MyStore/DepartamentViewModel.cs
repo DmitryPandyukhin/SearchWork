@@ -22,23 +22,25 @@ namespace MyStore
             Departament = departament;
         }
 
-        public bool Open()
+        private void PrepareData()
         {
-            bool dialogResult;
-            using (MyStoreContext db = new MyStoreContext())
+            using (MyStoreContext db = new())
             {
                 // Получаем справочник сотрудников
                 db.Employees.Load();
                 Departament.Employees = db.Employees.Local.ToObservableCollection();
-
-                // Устанавливаем руководителя из списка сотрудников.
-                Departament.Manager = Departament.Employees.FirstOrDefault(d => d.EmployeeId == Departament.ManagerId);
-                
-                // Передача контекста
-                DepartamentWindow = new(this);
-
-                dialogResult = DepartamentWindow.ShowDialog() ?? false;
             }
+
+            // Устанавливаем руководителя из списка сотрудников.
+            Departament.Manager = Departament.Employees.FirstOrDefault(d => d.EmployeeId == Departament.ManagerId);
+        }
+
+        public bool Open()
+        {
+            PrepareData();
+
+            DepartamentWindow = new(this);
+            bool dialogResult = DepartamentWindow.ShowDialog() ?? false;
 
             return dialogResult;
         }
@@ -50,7 +52,6 @@ namespace MyStore
             set
             {
                 if (Departament.Manager == value) return;
-                Departament.Manager = value;
                 Departament.ManagerId = value.EmployeeId;
                 OnPropertyChanged("ManagerItem");
             }
@@ -62,6 +63,7 @@ namespace MyStore
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
+
         public RelayCommand OkCommand
         {
             get

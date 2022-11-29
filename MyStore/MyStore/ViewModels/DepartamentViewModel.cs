@@ -1,16 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using MyStore.Models;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class DepartamentViewModel
     {
@@ -39,7 +33,7 @@ namespace MyStore
         {
             PrepareData();
 
-            DepartamentWindow = new(this);
+            DepartamentWindow = new DepartamentWindow(this);
             bool dialogResult = DepartamentWindow.ShowDialog() ?? false;
 
             return dialogResult;

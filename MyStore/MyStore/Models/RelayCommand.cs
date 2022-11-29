@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace MyStore
+namespace MyStore.Models
 {
     // Реализует интерфейс ICommand, благодаря чему с помощью подобных команды мы сможем направлять вызовы к ViewModel
     public class RelayCommand : ICommand

@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using MyStore.Models;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class EmployeeViewModel
     {
         public ObservableCollection<Departament>? Departaments { get; set; }
         public ObservableCollection<string?>? Sexs { get; set; }
-        public Employee Employee{ get; set; }
+        public Employee Employee { get; set; }
         EmployeeWindow? EmployeeWindow { get; set; }
         RelayCommand? okCommand;
-        public EmployeeViewModel(Employee employee) 
+        public EmployeeViewModel(Employee employee)
         {
             Employee = employee;
         }
@@ -43,7 +43,7 @@ namespace MyStore
             PrepareData();
 
             // Передача контекста
-            EmployeeWindow = new(this);
+            EmployeeWindow = new EmployeeWindow(this);
             bool dialogResult = EmployeeWindow.ShowDialog() ?? false;
 
             return dialogResult;

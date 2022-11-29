@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MyStore.Models;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class MainViewModel
     {
-        
+
         MyStoreContext db;
 
         RelayCommand? openOrdersCommand;
@@ -73,8 +74,8 @@ namespace MyStore
 
             // Сотрудники
             int id = db.Departaments.First().DepartamentId;
-            Employee emp1 = new() { LastName = "Ivanov", FirstName = "Ivan", Sex = Sex.мужской, BirthDate = new System.DateTime(2021, 1, 1), DepartamentId = id };
-            Employee emp2 = new() { LastName = "Petrov", FirstName = "Petr", Sex = Sex.мужской, BirthDate = new System.DateTime(2020, 1, 1), DepartamentId = id };
+            Employee emp1 = new() { LastName = "Ivanov", FirstName = "Ivan", Sex = Sex.мужской, BirthDate = new DateTime(2021, 1, 1), DepartamentId = id };
+            Employee emp2 = new() { LastName = "Petrov", FirstName = "Petr", Sex = Sex.мужской, BirthDate = new DateTime(2020, 1, 1), DepartamentId = id };
             db.Employees.AddRange(emp1, emp2);
             db.SaveChanges();
 

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyStore.Models;
 using System.Collections.ObjectModel;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class OrdersListViewModel
     {
@@ -11,7 +12,7 @@ namespace MyStore
         RelayCommand? deleteCommand;
         public ObservableCollection<Order> Orders { get; set; }
 
-        
+
         public OrdersListViewModel()
         {
             db.Orders
@@ -33,7 +34,7 @@ namespace MyStore
                 return addCommand ??
                   (addCommand = new RelayCommand((o) =>
                   {
-                      OrderViewModel orderViewModel = new (new());
+                      OrderViewModel orderViewModel = new(new());
                       if (orderViewModel.Open() == true)
                       {
                           Order order = new()
@@ -80,7 +81,7 @@ namespace MyStore
                           order.EmployeeId = orderViewModel.Order?.EmployeeId;
                           order.Tags?.Clear();
                           if (orderViewModel.Order?.Tags?.Count > 0)
-                            order.Tags = orderViewModel.Order?.Tags;
+                              order.Tags = orderViewModel.Order?.Tags;
 
                           db.Entry(order).State = EntityState.Modified;
                           db.SaveChanges();

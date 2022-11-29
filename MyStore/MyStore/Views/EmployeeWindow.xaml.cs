@@ -1,6 +1,7 @@
 ﻿using System.Windows;
+using MyStore.Models;
 
-namespace MyStore
+namespace MyStore.Views
 {
     /// <summary>
     /// Логика взаимодействия для EmployeeWindow.xaml

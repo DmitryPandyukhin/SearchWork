@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-namespace MyStore
+
+namespace MyStore.Models
 {
     public class Tag
     {
         public int TagId { get; set; }
         public string Name { get; set; }
-        
+
         // Порядок отображения тегов заказа.
         public int SortNumber { get; set; }
         // ссылка на заказ

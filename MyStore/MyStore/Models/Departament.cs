@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
-namespace MyStore
+namespace MyStore.Models
 {
     public class Departament : INotifyPropertyChanged
     {
@@ -23,8 +22,8 @@ namespace MyStore
 
         private int managerId;
         // Ссылка на руководителя.
-        public int ManagerId 
-        { 
+        public int ManagerId
+        {
             get
             {
                 return managerId;
@@ -33,14 +32,15 @@ namespace MyStore
             {
                 managerId = value;
                 OnPropertyChanged("ManagerId");
-            } 
+            }
         }
         private Employee? manager;
         [ForeignKey("ManagerId")]
         public Employee? Manager
         {
-            get{ return manager; }
-            set{
+            get { return manager; }
+            set
+            {
                 manager = value;
                 OnPropertyChanged("Manager");
             }

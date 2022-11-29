@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
+using MyStore.ViewModels;
 
-namespace MyStore
+namespace MyStore.Views
 {
     /// <summary>
     /// Логика взаимодействия для OrdersListWindow.xaml

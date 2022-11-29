@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-namespace MyStore
+namespace MyStore.Views
 {
     public partial class OrderWindow : Window
     {

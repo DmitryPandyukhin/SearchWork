@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
-namespace MyStore
+namespace MyStore.Models
 {
     // Реализация INotifyPropertyChanged позволяет уведомлять систему об изменении значений свойств.
     public class Employee : INotifyPropertyChanged
@@ -13,8 +12,8 @@ namespace MyStore
 
         private string? lastName;
         [Required]
-        public string? LastName 
-        { 
+        public string? LastName
+        {
             get { return lastName; }
             set
             {
@@ -79,7 +78,7 @@ namespace MyStore
 
         public Employee ShallowCopy()
         {
-            return (Employee)this.MemberwiseClone();
+            return (Employee)MemberwiseClone();
         }
     }
 }

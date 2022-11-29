@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
+using MyStore.Models;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class EmployeesListViewModel
     {

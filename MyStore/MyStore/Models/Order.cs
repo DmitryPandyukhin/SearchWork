@@ -3,16 +3,15 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Collections.Generic;
 
-namespace MyStore
+namespace MyStore.Models
 {
     public class Order : INotifyPropertyChanged
     {
         public int OrderId { get; set; }
 
         private int number;
-        public int Number 
+        public int Number
         {
             get { return number; }
             set
@@ -36,24 +35,24 @@ namespace MyStore
 
         public int? EmployeeId { get; set; }
         // Ссылка на сотрудника
-        public Employee? Employee { get; set;}
+        public Employee? Employee { get; set; }
 
         // один заказ - много тегов
         public virtual ObservableCollection<Tag>? Tags { get; set; }
-        
+
         // Отображаемая строка с тегами. Только для чтения.
         public string? TagsString
-        { 
+        {
             get
             {
-                var tags = Tags?.Select(t => t.Name)?.ToList<string>();
+                var tags = Tags?.Select(t => t.Name)?.ToList();
 
                 string? tagsString = null;
                 if (tags != null)
                     tagsString = string.Join("; ", tags!);
 
                 return tagsString;
-            } 
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

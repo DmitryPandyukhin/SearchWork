@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyStore
+namespace MyStore.Models
 {
     public class MyStoreContext : DbContext
     {

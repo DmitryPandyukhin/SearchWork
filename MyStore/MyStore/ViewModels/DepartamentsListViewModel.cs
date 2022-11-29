@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyStore.Models;
 using System.Collections.ObjectModel;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class DepartamentsListViewModel
     {
@@ -60,7 +61,7 @@ namespace MyStore
                           ManagerId = departament.ManagerId
                       };
 
-                      DepartamentViewModel departamentWindow = new (vm);
+                      DepartamentViewModel departamentWindow = new(vm);
 
                       if (departamentWindow.Open() == true)
                       {

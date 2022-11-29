@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Collections.Generic;
+using MyStore.Models;
 
-namespace MyStore
+namespace MyStore.ViewModels
 {
     public class OrderViewModel : INotifyPropertyChanged
     {
@@ -41,9 +41,9 @@ namespace MyStore
         {
             PrepareData();
 
-            OrderWindow = new(this);
+            OrderWindow = new OrderWindow(this);
             bool dialogResult = OrderWindow.ShowDialog() ?? false;
-            
+
             return dialogResult;
         }
 
@@ -68,7 +68,7 @@ namespace MyStore
             set
             {
                 Order.Tags = new();
-                if ((Order.TagsString == value) || (value?.Trim() == "") || (value == null)) return;
+                if (Order.TagsString == value || value?.Trim() == "" || value == null) return;
 
                 string[] tags = value.Split(";");
                 for (int i = 0; i < tags.Length; i++)
@@ -99,8 +99,8 @@ namespace MyStore
                 return okCommand ??
                   (okCommand = new RelayCommand((o) =>
                   {
-                    if (OrderWindow != null)
-                        OrderWindow.DialogResult = true;
+                      if (OrderWindow != null)
+                          OrderWindow.DialogResult = true;
                   }));
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MyStore
+namespace MyStore.Views
 {
     /// <summary>
     /// Логика взаимодействия для DepartamentWindow.xaml

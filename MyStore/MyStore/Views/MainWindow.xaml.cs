@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
+using MyStore.ViewMOdels;
 
-namespace MyStore
+namespace MyStore.Views
 {
     public partial class MainWindow : Window
     {

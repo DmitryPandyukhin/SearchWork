@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MyStore.Models;
+using MyStore.Views;
 
 namespace MyStore.ViewModels
 {

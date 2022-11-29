@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using MyStore.ViewMOdels;
+using MyStore.ViewModels;
 
 namespace MyStore.Views
 {

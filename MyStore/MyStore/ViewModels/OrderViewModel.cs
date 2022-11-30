@@ -69,8 +69,9 @@ namespace MyStore.ViewModels
             get { return Order.TagsString ?? ""; }
             set
             {
+                if (Order.TagsString == value) return;
+
                 Order.Tags = new();
-                if (Order.TagsString == value || value?.Trim() == "" || value == null) return;
 
                 string[] tags = value.Split(";");
                 for (int i = 0; i < tags.Length; i++)

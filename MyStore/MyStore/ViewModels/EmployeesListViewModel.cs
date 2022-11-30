@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
 
@@ -86,6 +87,9 @@ namespace MyStore.ViewModels
                           employee.BirthDate = employeeViewModel.Employee.BirthDate;
                           employee.Sex = employeeViewModel.Employee.Sex;
                           employee.DepartamentId = employeeViewModel.Employee.DepartamentId;
+                          if (employee.DepartamentId != null)
+                            employee.Departament = db.Departaments.Local
+                                .First(d => d.DepartamentId == employee.DepartamentId);
                           db.Entry(employee).State = EntityState.Modified;
                           db.SaveChanges();
                       }

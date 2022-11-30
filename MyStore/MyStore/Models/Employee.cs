@@ -57,11 +57,29 @@ namespace MyStore.Models
             }
         }
 
-        public Sex Sex { get; set; }
+        Sex sex;
+        public Sex Sex
+        {
+            get { return sex; }
+            set
+            {
+                sex = value;
+                OnPropertyChanged("Sex");
+            }
+        }
 
         // ссылка на подразделение
         public int? DepartamentId { get; set; }
-        public Departament? Departament { get; set; }
+        Departament? departament;
+        public Departament? Departament
+        {
+            get { return departament; }
+            set
+            {
+                departament = value;
+                OnPropertyChanged("Departament");
+            }
+        }
 
         // При отсутствии сеттера поле в БД создано не будет
         public virtual string? FullName

@@ -38,7 +38,16 @@ namespace MyStore.Models
         public Employee? Employee { get; set; }
 
         // один заказ - много тегов
-        public virtual ObservableCollection<Tag>? Tags { get; set; }
+        ObservableCollection<Tag>? tags;
+        public virtual ObservableCollection<Tag>? Tags
+        {
+            get { return tags; }
+            set
+            {
+                tags = value;
+                OnPropertyChanged("TagsString");
+            }
+        }
 
         // Отображаемая строка с тегами. Только для чтения.
         public string? TagsString

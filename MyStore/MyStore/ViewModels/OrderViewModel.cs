@@ -82,7 +82,7 @@ namespace MyStore.ViewModels
                 }
 
                 // Свойство изменено
-                OnPropertyChanged("TagsString2");
+                OnPropertyChanged("TagsStringEditable");
             }
         }
 

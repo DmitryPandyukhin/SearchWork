@@ -20,9 +20,9 @@ namespace MyStore.Models
             }
         }
 
-        private int managerId;
+        private int? managerId;
         // Ссылка на руководителя.
-        public int ManagerId
+        public int? ManagerId
         {
             get
             {

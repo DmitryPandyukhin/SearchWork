@@ -73,7 +73,7 @@ namespace MyStore.ViewModels
 
                 Order.Tags = new();
 
-                string[] tags = value.Split(";");
+                string[] tags = value.Split(",");
                 for (int i = 0; i < tags.Length; i++)
                 {
                     Order.Tags.Add(new Tag()

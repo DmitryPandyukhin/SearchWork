@@ -35,7 +35,16 @@ namespace MyStore.Models
 
         public int? EmployeeId { get; set; }
         // Ссылка на сотрудника
-        public Employee? Employee { get; set; }
+        Employee? employee;
+        public Employee? Employee
+        {
+            get { return employee; }
+            set
+            {
+                employee = value;
+                OnPropertyChanged("Employee");
+            }
+        }
 
         // один заказ - много тегов
         ObservableCollection<Tag>? tags;
@@ -58,7 +67,7 @@ namespace MyStore.Models
 
                 string? tagsString = null;
                 if (tags != null)
-                    tagsString = string.Join("; ", tags!);
+                    tagsString = string.Join(", ", tags!);
 
                 return tagsString;
             }

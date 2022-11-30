@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MyStore.ViewModels
 {
@@ -67,6 +68,7 @@ namespace MyStore.ViewModels
                       {
                           departament.Name = departamentWindow.Departament.Name;
                           departament.ManagerId = departamentWindow.Departament.ManagerId;
+                          departament.Manager = db.Employees.Local.First(e => e.EmployeeId == departament.ManagerId);
                           db.Entry(departament).State = EntityState.Modified;
                           db.SaveChanges();
                       }

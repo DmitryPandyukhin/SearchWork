@@ -9,8 +9,9 @@ namespace MyStore.Models
     {
         public int DepartamentId { get; set; }
 
-        private string? name;
-        public string? Name
+        // TODO
+        string name;
+        public string Name
         {
             get { return name; }
             set
@@ -22,18 +23,7 @@ namespace MyStore.Models
 
         private int? managerId;
         // Ссылка на руководителя.
-        public int? ManagerId
-        {
-            get
-            {
-                return managerId;
-            }
-            set
-            {
-                managerId = value;
-                OnPropertyChanged("ManagerId");
-            }
-        }
+        public int? ManagerId { get; set; }
         private Employee? manager;
         [ForeignKey("ManagerId")]
         public Employee? Manager
@@ -46,7 +36,7 @@ namespace MyStore.Models
             }
         }
         [InverseProperty("Departament")]
-        public virtual ObservableCollection<Employee> Employees { get; set; }
+        public virtual ObservableCollection<Employee>? Employees { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

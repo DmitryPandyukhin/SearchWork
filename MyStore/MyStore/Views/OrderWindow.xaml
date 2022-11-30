@@ -43,7 +43,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110">Теги:</Label>
-                <TextBox Text="{Binding TagsStringEditable}" />
+                <TextBox Text="{Binding TagsStringEditable}" ToolTip="Слова и фразы разделяются запятыми."/>
             </StackPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">

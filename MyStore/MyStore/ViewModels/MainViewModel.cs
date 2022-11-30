@@ -18,11 +18,11 @@ namespace MyStore.ViewModels
         {
             db = new MyStoreContext();
             // пересоздаем БД
-            //db.Database.EnsureDeleted();
+            db.Database.EnsureDeleted();
             // гарантируем, что БД создана
             db.Database.EnsureCreated();
             // Тестовые данные
-            //SeedData();
+            SeedData();
         }
 
         public RelayCommand OpenOrdersCommand

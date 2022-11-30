@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MyStore.ViewModels
 {
@@ -78,7 +79,10 @@ namespace MyStore.ViewModels
                           order.Number = orderViewModel.Order.Number;
                           order.ProductName = orderViewModel.Order.ProductName;
                           order.EmployeeId = orderViewModel.Order?.EmployeeId;
-                          order.Tags?.Clear();
+                          if (order.EmployeeId != null)
+                              order.Employee = db.Employees.Local.First(e => e.EmployeeId == order.EmployeeId);
+                          if (order.Tags?.Count > 0)
+                            order.Tags?.Clear();
                           if (orderViewModel.Order?.Tags?.Count > 0)
                               order.Tags = orderViewModel.Order?.Tags;
 

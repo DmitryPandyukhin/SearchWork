@@ -79,6 +79,7 @@ namespace MyStore.ViewModels
                           order.Number = orderViewModel.Order.Number;
                           order.ProductName = orderViewModel.Order.ProductName;
                           order.EmployeeId = orderViewModel.Order?.EmployeeId;
+                          order.Employee = orderViewModel.Order?.Employee;
                           order.Tags?.Clear();
                           if (orderViewModel.Order?.Tags?.Count > 0)
                               order.Tags = orderViewModel.Order?.Tags;

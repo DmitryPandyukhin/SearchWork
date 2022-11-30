@@ -56,6 +56,7 @@ namespace MyStore.ViewModels
             {
                 if (Order.Employee == value) return;
                 Order.EmployeeId = value.EmployeeId;
+                Order.Employee = value;
 
                 // Свойство изменено
                 OnPropertyChanged("EmployeeItem");

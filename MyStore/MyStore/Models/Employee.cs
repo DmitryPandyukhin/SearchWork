@@ -1,102 +1,35 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace MyStore.Models
 {
-    // Реализация INotifyPropertyChanged позволяет уведомлять систему об изменении значений свойств.
-    public class Employee : INotifyPropertyChanged
+    public interface IEmployee
+    {
+        int EmployeeId { get; set; }
+        string? LastName { get; set; }
+        string? FirstName { get; set; }
+        string? MiddleName { get; set; }
+        DateTime BirthDate { get; set; }
+        Sex Sex { get; set; }
+    }
+    public class Employee : IEmployee
     {
         public int EmployeeId { get; set; }
+        public string? LastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? MiddleName { get; set; }
+        public DateTime BirthDate { get; set; }
+        public Sex Sex { get; set; }
 
-        private string? lastName;
-        [Required]
-        public string? LastName
+        public string? FullName
         {
-            get { return lastName; }
-            set
+            get
             {
-                lastName = value;
-                OnPropertyChanged("LastName");
-            }
-        }
-
-        private string? firstName;
-        [Required]
-        public string? FirstName
-        {
-            get { return firstName; }
-            set
-            {
-                firstName = value;
-                OnPropertyChanged("FirstName");
-            }
-        }
-
-        private string? middleName;
-        public string? MiddleName
-        {
-            get { return middleName; }
-            set
-            {
-                middleName = value;
-                OnPropertyChanged("MiddleName");
-            }
-        }
-
-        private DateTime birthDate;
-        [Required]
-        public DateTime BirthDate
-        {
-            get { return birthDate; }
-            set
-            {
-                birthDate = value;
-                OnPropertyChanged("BirthDate");
-            }
-        }
-
-        Sex sex;
-        public Sex Sex
-        {
-            get { return sex; }
-            set
-            {
-                sex = value;
-                OnPropertyChanged("Sex");
+                return string.Join(" ", LastName, FirstName, MiddleName, BirthDate.ToShortDateString());
             }
         }
 
         // ссылка на подразделение
         public int? DepartamentId { get; set; }
-        Departament? departament;
-        public Departament? Departament
-        {
-            get { return departament; }
-            set
-            {
-                departament = value;
-                OnPropertyChanged("Departament");
-            }
-        }
-
-        // При отсутствии сеттера поле в БД создано не будет
-        public virtual string? FullName
-        {
-            get => string.Join(" ", lastName, firstName, middleName, birthDate.ToShortDateString());
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public Employee ShallowCopy()
-        {
-            return (Employee)MemberwiseClone();
-        }
+        public Departament? Departament { get; set; }
     }
 }

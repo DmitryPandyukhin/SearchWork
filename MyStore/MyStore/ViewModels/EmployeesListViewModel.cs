@@ -3,53 +3,43 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
+using MyStore.Services;
+using MyStore.Views;
 
 namespace MyStore.ViewModels
 {
     public class EmployeesListViewModel
     {
-        MyStoreContext db = new();
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
-        public ObservableCollection<Employee> Employees { get; set; }
-        public EmployeesListViewModel()
-        {
-            db.Employees
-                .Include(e => e.Departament)
-                .Load();
-            Employees = db.Employees.Local.ToObservableCollection();
 
-            db.Departaments.Load();
+        IDataService DataService { get; }
+
+        EmployeesListWindow EmployeesListWindow { get; }
+        public ObservableCollection<Employee>? Employees { get; set; }
+        public EmployeesListViewModel(IDataService dataService)
+        {
+            Employees = dataService.GetEmloyeesList();
+
+            this.DataService = dataService;
+
+            EmployeesListWindow = new EmployeesListWindow(this);
+            EmployeesListWindow.ShowDialog();
         }
         // команда добавления
         public RelayCommand AddCommand
         {
             get
             {
-                return addCommand ??
+                return 
                   (addCommand = new RelayCommand((o) =>
                   {
-                      EmployeeViewModel employeeViewModel = new(
-                          new Employee()
-                          {
-                              BirthDate = DateTime.Now.Date
-                          });
-                      if (employeeViewModel.Open() == true)
+                      Employee vm = new() { BirthDate = DateTime.Now };
+                      if (new EmployeeViewModel(DataService, vm).OpenWindow())
                       {
-                          Employee Employee = new()
-                          {
-                              LastName = employeeViewModel.Employee.LastName,
-                              FirstName = employeeViewModel.Employee.FirstName,
-                              MiddleName = employeeViewModel.Employee.MiddleName,
-                              BirthDate = employeeViewModel.Employee.BirthDate,
-                              Sex = employeeViewModel.Employee.Sex,
-                              DepartamentId = employeeViewModel.Employee.DepartamentId
-                          };
-
-                          db.Employees.Add(Employee);
-                          db.SaveChanges();
-                      }
+                          DataService.AddEmloyee(vm);
+                      };
                   }));
             }
         }
@@ -58,40 +48,45 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return editCommand ??
+                return 
                   (editCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
-                      Employee? employee = selectedItem as Employee;
                       // если ни одного объекта не выделено, выходим
-                      if (employee is null) return;
+                      if (selectedItem is not Employee employee) return;
 
-                      Employee vm = new Employee
+                      Employee vm = new()
                       {
-                          EmployeeId = employee.EmployeeId,
                           LastName = employee.LastName,
                           FirstName = employee.FirstName,
                           MiddleName = employee.MiddleName,
                           BirthDate = employee.BirthDate,
                           Sex = employee.Sex,
-                          DepartamentId = employee.DepartamentId
                       };
 
-                      EmployeeViewModel employeeViewModel = new(vm);
+                      if (employee.Departament != null)
+                          vm.Departament = (Departament?)DataService.GetDepartament(employee.Departament.DepartamentId);
 
-                      if (employeeViewModel.Open() == true)
+                      if (new EmployeeViewModel(DataService, vm).OpenWindow())
                       {
-                          employee.LastName = employeeViewModel.Employee.LastName;
-                          employee.FirstName = employeeViewModel.Employee.FirstName;
-                          employee.MiddleName = employeeViewModel.Employee.MiddleName;
-                          employee.BirthDate = employeeViewModel.Employee.BirthDate;
-                          employee.Sex = employeeViewModel.Employee.Sex;
-                          employee.DepartamentId = employeeViewModel.Employee.DepartamentId;
-                          if (employee.DepartamentId != null)
-                            employee.Departament = db.Departaments.Local
-                                .First(d => d.DepartamentId == employee.DepartamentId);
-                          db.Entry(employee).State = EntityState.Modified;
-                          db.SaveChanges();
+                          employee.LastName = vm.LastName;
+                          employee.FirstName = vm.FirstName;
+                          employee.MiddleName = vm.MiddleName;
+                          employee.BirthDate = vm.BirthDate;
+                          employee.Sex = vm.Sex;
+                          if (vm.Departament != null)
+                            employee.Departament = (Departament?)DataService.GetDepartament(vm.Departament.DepartamentId);
+
+                          DataService.EditEmloyee(employee);
+
+                          // Обновляем поля после изменения с БД. Нужно для обновления значений из справочников.
+                          var items = EmployeesListWindow.employeesList;
+
+                          var itemSources = items.ItemsSource;
+                          int index = items.SelectedIndex;
+                          items.ItemsSource = null;
+                          items.ItemsSource = itemSources;
+                          items.SelectedIndex = index;
                       }
                   }));
             }
@@ -101,15 +96,13 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return deleteCommand ??
+                return
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
-                      Employee? employee = selectedItem as Employee;
-                      // если ни одного объекта не выделено, выходим
-                      if (employee is null) return;
-                      db.Employees.Remove(employee);
-                      db.SaveChanges();
+                      if (selectedItem is not Employee employee) return;
+
+                      DataService.DeleteEmloyee(employee);
                   }));
             }
         }

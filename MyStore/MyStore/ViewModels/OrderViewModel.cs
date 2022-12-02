@@ -5,43 +5,30 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MyStore.Models;
 using MyStore.Views;
+using MyStore.Services;
 
 namespace MyStore.ViewModels
 {
-    public class OrderViewModel : INotifyPropertyChanged
+    public class OrderViewModel : NotifyPropertyChanged
     {
         RelayCommand? okCommand;
-        public Order Order { get; set; }
         OrderWindow? OrderWindow { get; set; }
+
+        // данные формы
+        public Order Order { get; set; }
         public ObservableCollection<Employee>? Employees { get; set; }
 
-        public OrderViewModel(Order order)
+        public OrderViewModel(IDataService dataService, IOrder order)
         {
-            Order = order;
+            Order = (Order)order;
+            
+            // Справочник сотрудников.
+            Employees = dataService.GetEmloyeesList();
         }
 
-        private void PrepareData()
+        public bool OpenWindow()
         {
-            using (MyStoreContext db = new())
-            {
-                // Загружаем справочник сотрудников
-                db.Employees.Load();
-                Employees = db.Employees.Local.ToObservableCollection();
-
-                // Устанавливаем сотрудника
-                Order.Employee = Employees.Where(e => e.EmployeeId == Order.EmployeeId).FirstOrDefault();
-
-                // Получаем теги
-                db.Tags.Where(t => t.OrderId == Order.OrderId).Load();
-                Order.Tags = db.Tags.Local.ToObservableCollection();
-            }
-        }
-
-        // Открываем окно работы с заказом
-        public bool Open()
-        {
-            PrepareData();
-
+            // Открываем окно
             OrderWindow = new OrderWindow(this);
             bool dialogResult = OrderWindow.ShowDialog() ?? false;
 
@@ -55,7 +42,6 @@ namespace MyStore.ViewModels
             set
             {
                 if (Order.Employee == value) return;
-                Order.EmployeeId = value.EmployeeId;
                 Order.Employee = value;
 
                 // Свойство изменено
@@ -63,7 +49,6 @@ namespace MyStore.ViewModels
             }
         }
 
-        // Работаем с тегами
         public string TagsStringEditable
         {
             get { return Order.TagsString ?? ""; }
@@ -73,6 +58,7 @@ namespace MyStore.ViewModels
 
                 Order.Tags = new();
 
+                // Парсим строку с тегами.
                 string[] tags = value.Split(",");
                 for (int i = 0; i < tags.Length; i++)
                 {
@@ -88,18 +74,11 @@ namespace MyStore.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
         public RelayCommand OkCommand
         {
             get
             {
-                return okCommand ??
+                return
                   (okCommand = new RelayCommand((o) =>
                   {
                       if (OrderWindow != null)

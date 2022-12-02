@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MyStore.Services;
 using MyStore.ViewModels;
 
 
@@ -9,10 +10,10 @@ namespace MyStore.Views
     /// </summary>
     public partial class EmployeesListWindow : Window
     {
-        public EmployeesListWindow()
+        public EmployeesListWindow(object context)
         {
             InitializeComponent();
-            DataContext = new EmployeesListViewModel();
+            DataContext = context;
         }
     }
 }

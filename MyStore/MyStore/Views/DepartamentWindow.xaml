@@ -38,7 +38,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Руководитель:</Label>
-                <ComboBox ItemsSource="{Binding Path=Departament.Employees}" 
+                <ComboBox ItemsSource="{Binding Path=Employees}" 
                     SelectedItem="{Binding Path=ManagerItem}"
                     DisplayMemberPath="FullName"/>
             </StackPanel>

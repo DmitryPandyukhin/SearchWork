@@ -8,7 +8,6 @@ namespace MyStore.Views
     /// </summary>
     public partial class EmployeeWindow : Window
     {
-        public Employee Employee { get; private set; }
         public EmployeeWindow(object dataContext)
         {
             InitializeComponent();

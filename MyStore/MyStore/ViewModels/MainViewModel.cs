@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MyStore.Models;
+using MyStore.Services;
 using MyStore.Views;
 
 namespace MyStore.ViewModels
@@ -8,7 +9,7 @@ namespace MyStore.ViewModels
     public class MainViewModel
     {
 
-        MyStoreContext db;
+        IDataService DataService { get; }
 
         RelayCommand? openOrdersCommand;
         RelayCommand? openEmployeesCommand;
@@ -16,23 +17,17 @@ namespace MyStore.ViewModels
 
         public MainViewModel()
         {
-            db = new MyStoreContext();
-            // пересоздаем БД
-            db.Database.EnsureDeleted();
-            // гарантируем, что БД создана
-            db.Database.EnsureCreated();
-            // Тестовые данные
-            SeedData();
+            DataService = new DataService();
         }
 
         public RelayCommand OpenOrdersCommand
         {
             get
             {
-                return openOrdersCommand ??
+                return
                   (openOrdersCommand = new RelayCommand((o) =>
                   {
-                      new OrdersListWindow().ShowDialog();
+                      _ = new OrdersListViewModel(DataService);
                   }));
             }
         }
@@ -40,10 +35,10 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return openEmployeesCommand ??
+                return
                   (openEmployeesCommand = new RelayCommand((o) =>
                   {
-                      new EmployeesListWindow().ShowDialog();
+                      _ = new EmployeesListViewModel(DataService);
                   }));
             }
         }
@@ -52,34 +47,14 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return openDepartamentsCommand ??
+                return
                   (openDepartamentsCommand = new RelayCommand((o) =>
                   {
-                      new DepartamentsListWindow().ShowDialog();
+                      _ = new DepartamentsListViewModel(DataService);
                   }));
             }
         }
 
-        private void SeedData()
-        {
-            // департаменты
-            Departament dep1 = new() { Name = "Dep1" };
-            Departament dep2 = new() { Name = "Dep2" };
-            db.Departaments.AddRange(dep1, dep2);
-            db.SaveChanges();
-
-            // Сотрудники
-            int id = db.Departaments.First().DepartamentId;
-            Employee emp1 = new() { LastName = "Ivanov", FirstName = "Ivan", Sex = Sex.мужской, BirthDate = new DateTime(2021, 1, 1), DepartamentId = id };
-            Employee emp2 = new() { LastName = "Petrov", FirstName = "Petr", Sex = Sex.мужской, BirthDate = new DateTime(2020, 1, 1), DepartamentId = id };
-            db.Employees.AddRange(emp1, emp2);
-            db.SaveChanges();
-
-            // Заказы
-            id = db.Employees.First().EmployeeId;
-            Order order = new Order() { Number = 123, ProductName = "Product1", EmployeeId = id };
-            db.Orders.Add(order);
-            db.SaveChanges();
-        }
+        
     }
 }

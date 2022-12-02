@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
-
-namespace MyStore.Models
+﻿namespace MyStore.Models
 {
-    public class Tag
+    public interface ITag
+    {
+        int TagId { get; set; }
+        string? Name { get; set; }
+        int SortNumber { get; set; }
+    }
+    public class Tag : ITag
     {
         public int TagId { get; set; }
-        // TODO
         public string? Name { get; set; }
         // Порядок отображения тегов заказа.
         public int SortNumber { get; set; }
 
         // ссылка на заказ
         public int OrderId { get; set; }
-        // TODO
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
     }
 }

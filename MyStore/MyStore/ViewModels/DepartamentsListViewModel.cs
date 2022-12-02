@@ -1,46 +1,43 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
+using MyStore.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MyStore.Views;
+using System.Xml.Linq;
 
 namespace MyStore.ViewModels
 {
     public class DepartamentsListViewModel
     {
-        MyStoreContext db = new();
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
+        DepartamentsListWindow DepartamentsListWindow { get; }
+
+        DataService DataService { get; }
         public ObservableCollection<Departament> Departaments { get; set; }
-        public DepartamentsListViewModel()
+        public DepartamentsListViewModel(IDataService dataService)
         {
-            db.Departaments
-                .Include(d => d.Employees)
-                .Load();
-            Departaments = db.Departaments.Local.ToObservableCollection();
-            db.Employees.Load();
+            DataService = (DataService)dataService;
+
+            Departaments = DataService.GetDepartamentsList();
+
+            DepartamentsListWindow = new DepartamentsListWindow(this);
+            DepartamentsListWindow.ShowDialog();
         }
         // команда добавления
         public RelayCommand AddCommand
         {
             get
             {
-                return addCommand ??
-                  (addCommand = new RelayCommand((o) =>
-                  {
-                      DepartamentViewModel departamentViewModel = new(new Departament());
-                      if (departamentViewModel.Open() == true)
-                      {
-                          Departament departament = new()
-                          {
-                              Name = departamentViewModel.Departament.Name,
-                              ManagerId = departamentViewModel.Departament.ManagerId
-                          };
-
-                          db.Departaments.Add(departament);
-                          db.SaveChanges();
-                      }
-                  }));
+                return 
+                    (addCommand = new RelayCommand((o) =>
+                    {
+                        Departament vm = new ();
+                        if (new DepartamentViewModel(DataService, vm).OpenWindow())
+                            DataService.AddDepartament(vm);
+                    }));
             }
         }
         // команда редактирования
@@ -48,29 +45,34 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return editCommand ??
+                return 
                   (editCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
-                      Departament? departament = selectedItem as Departament;
-                      // если ни одного объекта не выделено, выходим
-                      if (departament is null) return;
+                      if (selectedItem is not Departament departament) return;
 
-                      Departament vm = new Departament
+                      Departament vm = new ()
                       {
                           Name = departament.Name,
-                          ManagerId = departament.ManagerId
                       };
+                      if (departament?.Manager != null)
+                          vm.Manager = (Employee?)DataService.GetEmloyee(departament.Manager.EmployeeId);
 
-                      DepartamentViewModel departamentWindow = new(vm);
-
-                      if (departamentWindow.Open() == true)
+                      if (new DepartamentViewModel(DataService, vm).OpenWindow())
                       {
-                          departament.Name = departamentWindow.Departament.Name;
-                          departament.ManagerId = departamentWindow.Departament.ManagerId;
-                          departament.Manager = db.Employees.Local.First(e => e.EmployeeId == departament.ManagerId);
-                          db.Entry(departament).State = EntityState.Modified;
-                          db.SaveChanges();
+                          departament!.Name = vm.Name;
+                          if (vm.Manager != null)
+                              departament.Manager = (Employee?)DataService.GetEmloyee(vm.Manager.EmployeeId);
+
+                          DataService.EditDepartament(departament!);
+
+                          // Обновляем DataGrid после изменения с БД.
+                          var items = DepartamentsListWindow.departamentsList;
+                          var itemSources = items.ItemsSource;
+                          int index = items.SelectedIndex;
+                          items.ItemsSource = null;
+                          items.ItemsSource = itemSources;
+                          items.SelectedIndex = index;
                       }
                   }));
             }
@@ -80,15 +82,14 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return deleteCommand ??
+                return 
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
-                      Departament? departament = selectedItem as Departament;
                       // если ни одного объекта не выделено, выходим
-                      if (departament is null) return;
-                      db.Departaments.Remove(departament);
-                      db.SaveChanges();
+                      if (selectedItem is not Departament departament) return;
+
+                      DataService.DeleteDepartament(departament);
                   }));
             }
         }

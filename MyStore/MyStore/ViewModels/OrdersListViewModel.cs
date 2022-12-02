@@ -1,54 +1,46 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
+using MyStore.Services;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
+using MyStore.Views;
 
 namespace MyStore.ViewModels
 {
-    public class OrdersListViewModel
+    public class OrdersListViewModel : NotifyPropertyChanged
     {
-        MyStoreContext db = new();
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
-        public ObservableCollection<Order> Orders { get; set; }
 
+        IDataService DataService { get; }
 
-        public OrdersListViewModel()
+        OrdersListWindow OrdersListWindow { get; }
+        public ObservableCollection<Order>? Orders { get; set; }
+
+        public OrdersListViewModel(IDataService dataService)
         {
-            db.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Tags)
-                .Load();
-            Orders = db.Orders.Local.ToObservableCollection();
+            DataService = dataService;
 
-            // Если не загрузить форма не будет обновляться
-            db.Employees.Load();
-            db.Tags.Load();
+            Orders = dataService.GetOrdersList();
+
+            OrdersListWindow = new OrdersListWindow(this);
+            OrdersListWindow.ShowDialog();
         }
 
-        // команда добавления
         public RelayCommand AddCommand
         {
             get
             {
-                return addCommand ??
+                return 
                   (addCommand = new RelayCommand((o) =>
                   {
-                      OrderViewModel orderViewModel = new(new());
-                      if (orderViewModel.Open() == true)
+                      Order vm = new();
+                      if (new OrderViewModel(DataService, vm).OpenWindow())
                       {
-                          Order order = new()
-                          {
-                              Number = orderViewModel.Order.Number,
-                              ProductName = orderViewModel.Order.ProductName,
-                              EmployeeId = orderViewModel.Order?.EmployeeId,
-                              Tags = orderViewModel.Order?.Tags
-                          };
-
-                          db.Orders.Add(order);
-                          db.SaveChanges();
-                      }
+                          DataService.AddOrder(vm);
+                      };
                   }));
             }
         }
@@ -57,38 +49,50 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return editCommand ??
-                  (editCommand = new RelayCommand((selectedItem) =>
-                  {
-                      // получаем выделенный объект
-                      Order? order = selectedItem as Order;
-                      // если ни одного объекта не выделено, выходим
-                      if (order is null) return;
+                return 
+                    (editCommand = new RelayCommand((selectedItem) =>
+                    {
+                        // получаем выделенный объект
+                        if (selectedItem is not Order order) return;
 
-                      Order vm = new()
-                      {
-                          Number = order.Number,
-                          OrderId = order.OrderId,
-                          ProductName = order.ProductName,
-                          EmployeeId = order.EmployeeId
-                      };
+                        Order vm = new()
+                        {
+                            Number = order.Number,
+                            ProductName = order.ProductName
+                        };
 
-                      OrderViewModel orderViewModel = new(vm);
-                      if (orderViewModel.Open() == true)
-                      {
-                          order.Number = orderViewModel.Order.Number;
-                          order.ProductName = orderViewModel.Order.ProductName;
-                          order.EmployeeId = orderViewModel.Order?.EmployeeId;
-                          if (order.EmployeeId != null)
-                              order.Employee = db.Employees.Local.First(e => e.EmployeeId == order.EmployeeId);
-                          if (order.Tags?.Count > 0)
-                            order.Tags?.Clear();
-                          if (orderViewModel.Order?.Tags?.Count > 0)
-                              order.Tags = orderViewModel.Order?.Tags;
+                        if (order.Employee != null)
+                            vm.Employee = (Employee?)DataService.GetEmloyee(order.Employee.EmployeeId);
 
-                          db.Entry(order).State = EntityState.Modified;
-                          db.SaveChanges();
-                      }
+                        if (order.Tags != null)
+                            vm.Tags = DataService.GetTagsForOrders(order.OrderId);
+
+
+                        if (new OrderViewModel(DataService, vm).OpenWindow())
+                        {
+                            order.Number = vm.Number;
+                            order.ProductName = vm.ProductName;
+
+                            if (vm.Employee != null)
+                                order.Employee = (Employee?)DataService.GetEmloyee(vm.Employee.EmployeeId);
+
+                            if (vm.Tags != null)
+                            {
+                                if (order?.Tags?.Count > 0) 
+                                    order.Tags.Clear();
+                                order!.Tags = vm.Tags;
+                            }
+
+                            DataService.EditOrder(order);
+
+                            // Обновляем поля после изменения с БД. Нужно для обновления значений из справочников.
+                            var items = OrdersListWindow.ordersList;
+                            var itemSources = items.ItemsSource;
+                            int index = items.SelectedIndex;
+                            items.ItemsSource = null;
+                            items.ItemsSource = itemSources;
+                            items.SelectedIndex = index;
+                        }
                   }));
             }
         }
@@ -97,15 +101,12 @@ namespace MyStore.ViewModels
         {
             get
             {
-                return deleteCommand ??
+                return 
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
-                      // получаем выделенный объект
-                      Order? order = selectedItem as Order;
                       // если ни одного объекта не выделено, выходим
-                      if (order is null) return;
-                      db.Orders.Remove(order);
-                      db.SaveChanges();
+                      if (selectedItem is not Order order) return;
+                      DataService.DeleteOrder(order);
                   }));
             }
         }

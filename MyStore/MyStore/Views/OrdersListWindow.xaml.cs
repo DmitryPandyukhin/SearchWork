@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MyStore.Services;
 using MyStore.ViewModels;
 
 namespace MyStore.Views
@@ -8,11 +9,10 @@ namespace MyStore.Views
     /// </summary>
     public partial class OrdersListWindow : Window
     {
-        public OrdersListWindow()
+        public OrdersListWindow(object context)
         {
             InitializeComponent();
-            // Из контекста будем тянуть для привящки Orders
-            DataContext = new OrdersListViewModel();
+            DataContext = context;
         }
     }
 }

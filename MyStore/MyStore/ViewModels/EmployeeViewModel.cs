@@ -6,58 +6,46 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MyStore.Models;
 using MyStore.Views;
+using MyStore.Services;
+using System.Windows.Controls;
 
 namespace MyStore.ViewModels
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel : NotifyPropertyChanged
     {
         public ObservableCollection<Departament>? Departaments { get; set; }
         public ObservableCollection<string?>? Sexs { get; set; }
         public Employee Employee { get; set; }
+
         EmployeeWindow? EmployeeWindow { get; set; }
         RelayCommand? okCommand;
-        public EmployeeViewModel(Employee employee)
+        public EmployeeViewModel(IDataService dataService, IEmployee employee)
         {
-            Employee = employee;
-        }
+            Employee = (Employee)employee;
 
-        private void PrepareData()
-        {
-            using (MyStoreContext db = new())
-            {
-                // Загружаем справочник подразделений
-                db.Departaments.Load();
-                Departaments = db.Departaments.Local.ToObservableCollection();
-            }
+            // Cправочник подразделений
+            Departaments = dataService.GetDepartamentsList();
 
-            // Устанавливаем выбранное подразделение
-            Employee.Departament = Departaments.FirstOrDefault(d => d.DepartamentId == Employee.DepartamentId);
-
-            // Получаем справочник половой принадлежности.
+            // Справочник половой принадлежности
             Sexs = new(Enum.GetNames(typeof(Sex)));
-            Sexs.Insert(0, null);
         }
 
-        // Открываем окно работы с сотрудником
-        public bool Open()
+        public bool OpenWindow()
         {
-            PrepareData();
-
-            // Передача контекста
             EmployeeWindow = new EmployeeWindow(this);
             bool dialogResult = EmployeeWindow.ShowDialog() ?? false;
 
             return dialogResult;
         }
 
-        // Работаем со справочником подразделений
+        // Считываем выбранное значение из справочника
         public Departament DepartamentItem
         {
             get { return Employee.Departament!; }
             set
             {
                 if (Employee.Departament == value) return;
-                Employee.DepartamentId = value.DepartamentId;
+                Employee.Departament = value;
                 OnPropertyChanged("DepartamentItem");
             }
         }
@@ -69,24 +57,17 @@ namespace MyStore.ViewModels
             set
             {
                 if (Employee.Sex.ToString() == value) return;
-                Enum.TryParse(value, out Sex sex);
+                _ = Enum.TryParse(value, out Sex sex);
                 Employee.Sex = sex;
                 OnPropertyChanged("SexItem");
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         public RelayCommand OkCommand
         {
             get
             {
-                return okCommand ??
+                return
                   (okCommand = new RelayCommand((o) =>
                   {
                       if (EmployeeWindow != null)

@@ -35,7 +35,7 @@ namespace MyStore.ViewModels
             return dialogResult;
         }
 
-        // Работаем со справочником сотрудников
+        // Взаимодействуем со справочником сотрудников
         public Employee EmployeeItem
         {
             get { return Order.Employee!; }
@@ -43,9 +43,6 @@ namespace MyStore.ViewModels
             {
                 if (Order.Employee == value) return;
                 Order.Employee = value;
-
-                // Свойство изменено
-                OnPropertyChanged("EmployeeItem");
             }
         }
 
@@ -68,9 +65,6 @@ namespace MyStore.ViewModels
                         SortNumber = i
                     });
                 }
-
-                // Свойство изменено
-                OnPropertyChanged("TagsStringEditable");
             }
         }
 

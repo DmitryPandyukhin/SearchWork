@@ -8,14 +8,34 @@ namespace MyStore.Models
         public int DepartamentId { get; set; }
         public string Name { get; set; }
     }
-    public class Departament : IDepartament
+    public class Departament : NotifyPropertyChanged, IDepartament
     {
         public int DepartamentId { get; set; }
-        public string Name { get; set; } = "";
+        string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name == value) return;
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
 
         // Ссылка на руководителя.
         public int? ManagerId { get; set; }
-        public Employee? Manager { get; set; }
+        Employee? manager;
+        public Employee? Manager
+        {
+            get { return manager; }
+            set
+            {
+                if (manager == value) return;
+                manager = value;
+                OnPropertyChanged("Manager");
+            }
+        }
 
         [InverseProperty("Departament")]
         public virtual ObservableCollection<Employee>? Employees { get; set; }

@@ -67,7 +67,6 @@ namespace MyStore.ViewModels
                         if (order.Tags != null)
                             vm.Tags = DataService.GetTagsForOrders(order.OrderId);
 
-
                         if (new OrderViewModel(DataService, vm).OpenWindow())
                         {
                             order.Number = vm.Number;
@@ -84,14 +83,6 @@ namespace MyStore.ViewModels
                             }
 
                             DataService.EditOrder(order);
-
-                            // Обновляем поля после изменения с БД. Нужно для обновления значений из справочников.
-                            var items = OrdersListWindow.ordersList;
-                            var itemSources = items.ItemsSource;
-                            int index = items.SelectedIndex;
-                            items.ItemsSource = null;
-                            items.ItemsSource = itemSources;
-                            items.SelectedIndex = index;
                         }
                   }));
             }

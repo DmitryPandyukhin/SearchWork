@@ -63,7 +63,6 @@ namespace MyStore.ViewModels
                           BirthDate = employee.BirthDate,
                           Sex = employee.Sex,
                       };
-
                       if (employee.Departament != null)
                           vm.Departament = (Departament?)DataService.GetDepartament(employee.Departament.DepartamentId);
 
@@ -78,15 +77,6 @@ namespace MyStore.ViewModels
                             employee.Departament = (Departament?)DataService.GetDepartament(vm.Departament.DepartamentId);
 
                           DataService.EditEmloyee(employee);
-
-                          // Обновляем поля после изменения с БД. Нужно для обновления значений из справочников.
-                          var items = EmployeesListWindow.employeesList;
-
-                          var itemSources = items.ItemsSource;
-                          int index = items.SelectedIndex;
-                          items.ItemsSource = null;
-                          items.ItemsSource = itemSources;
-                          items.SelectedIndex = index;
                       }
                   }));
             }

@@ -64,15 +64,7 @@ namespace MyStore.ViewModels
                           if (vm.Manager != null)
                               departament.Manager = (Employee?)DataService.GetEmloyee(vm.Manager.EmployeeId);
 
-                          DataService.EditDepartament(departament!);
-
-                          // Обновляем DataGrid после изменения с БД.
-                          var items = DepartamentsListWindow.departamentsList;
-                          var itemSources = items.ItemsSource;
-                          int index = items.SelectedIndex;
-                          items.ItemsSource = null;
-                          items.ItemsSource = itemSources;
-                          items.SelectedIndex = index;
+                          DataService.EditDepartament(departament);
                       }
                   }));
             }

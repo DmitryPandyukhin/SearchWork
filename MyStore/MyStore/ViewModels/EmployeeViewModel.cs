@@ -46,7 +46,6 @@ namespace MyStore.ViewModels
             {
                 if (Employee.Departament == value) return;
                 Employee.Departament = value;
-                OnPropertyChanged("DepartamentItem");
             }
         }
 
@@ -59,7 +58,6 @@ namespace MyStore.ViewModels
                 if (Employee.Sex.ToString() == value) return;
                 _ = Enum.TryParse(value, out Sex sex);
                 Employee.Sex = sex;
-                OnPropertyChanged("SexItem");
             }
         }
 

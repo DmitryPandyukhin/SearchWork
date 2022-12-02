@@ -12,20 +12,63 @@ namespace MyStore.Models
     public class Order : NotifyPropertyChanged, IOrder
     {
         public int OrderId { get; set; }
-        public int Number { get; set; }
-        public string? ProductName { get; set; }
+        int number;
+        public int Number
+        {
+            get { return number; }
+            set
+            {
+                if (number == value) return;
+                number = value;
+                OnPropertyChanged("Number");
+            }
+        }
+        string? productName;
+        public string? ProductName
+        {
+            get { return productName; }
+            set
+            {
+                if (productName == value) return;
+                productName = value;
+                OnPropertyChanged("ProductName");
+            }
+        }
 
         public int? EmployeeId { get; set; }
         // Ссылка на сотрудника
-        public Employee? Employee { get; set; }
+        Employee? employee;
+        public Employee? Employee
+        {
+            get { return employee; }
+            set
+            {
+                if (employee == value) return;
+                employee = value;
+                OnPropertyChanged("Employee");
+            }
+        }
 
         // один заказ - много тегов
-        public virtual ObservableCollection<Tag>? Tags { get; set; }
-
-        // Для отображения в списке заказов.
+        ObservableCollection<Tag>? tags;
+        public ObservableCollection<Tag>? Tags
+        {
+            get { return tags; }
+            set
+            {
+                if (tags == value) return;
+                tags = value;
+                //OnPropertyChanged("Tags");
+                // Вызов для обновления на формах.
+                OnPropertyChanged("TagsString");
+            }
+        }
+        // Отображение строки тегов с разделтелем запятой
         public string? TagsString
         {
-            get
+            // Сеттер, содержащий парсинг строки тегов, создается во ViewModel.
+            // Геттер создаем тут, так как отображение нужно в ремках списка заказов.
+            get 
             {
                 var tags = Tags?.Select(t => t.Name)?.ToList();
 

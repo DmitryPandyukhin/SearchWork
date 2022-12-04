@@ -76,7 +76,7 @@ namespace MyStore.Services
                 .Load();
         }
 
-        private void SeedData()
+        /*private void SeedData()
         {
             // департаменты
             Departament dep1 = new() { Name = "Dep1" };
@@ -96,7 +96,7 @@ namespace MyStore.Services
             Order order = new () { Number = 123, ProductName = "Product1", EmployeeId = id };
             DB.Orders.Add(order);
             DB.SaveChanges();
-        }
+        }*/
 
         // Сотрудники
         public IEmployee? GetEmloyee(int employeeId)

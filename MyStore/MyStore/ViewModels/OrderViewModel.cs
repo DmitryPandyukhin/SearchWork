@@ -7,6 +7,8 @@ using MyStore.Models;
 using MyStore.Views;
 using MyStore.Services;
 using System.Windows;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace MyStore.ViewModels
 {
@@ -78,9 +80,9 @@ namespace MyStore.ViewModels
                   {
                       if (OrderWindow != null)
                       {
-                          if ((Order?.Number == null) || (Order?.Number == 0))
+                          if ((Order?.Number == 0) || (Order?.Number == null))
                           {
-                              MessageBox.Show("Не введен номер заказа.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                              MessageBox.Show("Не введен номер заказа (целое число).", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
                               return;
                           }
                               

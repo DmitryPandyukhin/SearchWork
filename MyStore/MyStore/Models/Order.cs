@@ -1,19 +1,25 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Windows;
+using System.Windows.Data;
 
 namespace MyStore.Models
 {
     public interface IOrder
     {
         int OrderId { get; set; }
-        int Number { get; set; }
+        int? Number { get; set; }
         string? ProductName { get; set; }
     }
-    public class Order : NotifyPropertyChanged, IOrder
+    public class Order : NotifyPropertyChanged, IOrder, IDataErrorInfo
     {
         public int OrderId { get; set; }
-        int number;
-        public int Number
+        int? number;
+        public int? Number
         {
             get { return number; }
             set
@@ -77,6 +83,27 @@ namespace MyStore.Models
                     tagsString = string.Join(", ", tags!);
 
                 return tagsString;
+            }
+        }
+        
+        public string Error
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+                switch (columnName)
+                {
+                    case "Number":
+                        if ((Number == 0) || (Number == null))
+                            result = "Введите номер заказа (целое число)."; break;
+                    
+                };
+                return result;
             }
         }
     }

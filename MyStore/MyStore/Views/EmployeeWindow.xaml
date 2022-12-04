@@ -11,6 +11,13 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Margin" Value="0 5 0 0" />
             <Setter Property="MinWidth" Value="170" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
+                        Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="Label">
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -28,17 +35,26 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Margin" Value="0 5 0 0" />
             <Setter Property="MinWidth" Value="170" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
+                        Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Grid>
         <StackPanel >
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Фамилия:</Label>
-                <TextBox Name="LastName" Text="{Binding Employee.LastName}" ></TextBox>
+                <TextBox Name="LastName" Text="{Binding Employee.LastName,
+                    ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Имя:</Label>
-                <TextBox Name="FirstName" Text="{Binding Employee.FirstName}" ></TextBox>
+                <TextBox Name="FirstName" Text="{Binding Employee.FirstName,
+                    ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Отчество:</Label>
@@ -46,7 +62,8 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Дата рождения:</Label>
-                <DatePicker Name="BirthDate" SelectedDate="{Binding Employee.BirthDate}" ></DatePicker>
+                <DatePicker Name="BirthDate" SelectedDate="{Binding Employee.BirthDate,
+                    ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label MinWidth="110">Пол:</Label>

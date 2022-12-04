@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyStore.Models
@@ -8,7 +9,7 @@ namespace MyStore.Models
         public int DepartamentId { get; set; }
         public string Name { get; set; }
     }
-    public class Departament : NotifyPropertyChanged, IDepartament
+    public class Departament : NotifyPropertyChanged, IDepartament, IDataErrorInfo
     {
         public int DepartamentId { get; set; }
         string name;
@@ -39,5 +40,25 @@ namespace MyStore.Models
 
         [InverseProperty("Departament")]
         public virtual ObservableCollection<Employee>? Employees { get; set; }
+
+        public string Error
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+    
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+                switch (columnName)
+                {
+                    case "Name": 
+                        if (string.IsNullOrEmpty(Name)) 
+                            result = "Введите название подразделения."; break;
+                };
+                return result;
+            }
+        }
     }
 }

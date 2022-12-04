@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace MyStore.Models
 {
@@ -11,11 +13,11 @@ namespace MyStore.Models
         DateTime BirthDate { get; set; }
         Sex Sex { get; set; }
     }
-    public class Employee : NotifyPropertyChanged, IEmployee
+    public class Employee : NotifyPropertyChanged, IEmployee, IDataErrorInfo
     {
         public int EmployeeId { get; set; }
         string lastName;
-        public string LastName
+        public string? LastName
         {
             get { return lastName; }
             set
@@ -26,7 +28,7 @@ namespace MyStore.Models
             }
         }
         string firstName;
-        public string FirstName
+        public string? FirstName
         {
             get { return firstName; }
             set
@@ -90,6 +92,32 @@ namespace MyStore.Models
                 if (departament == value) return;
                 departament = value;
                 OnPropertyChanged("Departament");
+            }
+        }
+
+        public string Error
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+                switch (columnName)
+                {
+                    case "FirstName":
+                        if (string.IsNullOrEmpty(FirstName))
+                            result = "Введите имя."; break;
+                    case "LastName":
+                        if (string.IsNullOrEmpty(LastName))
+                            result = "Введите фамилию."; break;
+                    case "BirthDate":
+                        if (DateTime.Now.AddYears(-14) < BirthDate)
+                            result = "Сотрудник не может быть моложе 14 лет."; break;
+                };
+                return result;
             }
         }
     }

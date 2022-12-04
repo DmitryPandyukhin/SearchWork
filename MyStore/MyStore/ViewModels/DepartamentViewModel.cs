@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using MyStore.Views;
 using MyStore.Services;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace MyStore.ViewModels
 {
@@ -56,7 +57,15 @@ namespace MyStore.ViewModels
                   (okCommand = new RelayCommand((o) =>
                   {
                       if (DepartamentWindow != null)
+                      {
+                          if ((Departament?.Name == null) || (Departament?.Name.Trim().Length == 0))
+                          {
+                              MessageBox.Show("Не введено название подразделения.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                              return;
+                          }
+
                           DepartamentWindow.DialogResult = true;
+                      }
                   }));
             }
         }

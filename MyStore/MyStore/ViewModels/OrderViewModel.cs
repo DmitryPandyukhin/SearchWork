@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
+using System;
 using System.Runtime.CompilerServices;
 using MyStore.Models;
 using MyStore.Views;
 using MyStore.Services;
+using System.Windows;
 
 namespace MyStore.ViewModels
 {
@@ -76,7 +77,15 @@ namespace MyStore.ViewModels
                   (okCommand = new RelayCommand((o) =>
                   {
                       if (OrderWindow != null)
+                      {
+                          if ((Order?.Number == null) || (Order?.Number == 0))
+                          {
+                              MessageBox.Show("Не введен номер заказа.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                              return;
+                          }
+                              
                           OrderWindow.DialogResult = true;
+                      }    
                   }));
             }
         }

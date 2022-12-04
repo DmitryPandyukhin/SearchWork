@@ -8,6 +8,7 @@ using MyStore.Models;
 using MyStore.Views;
 using MyStore.Services;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace MyStore.ViewModels
 {
@@ -66,11 +67,31 @@ namespace MyStore.ViewModels
             get
             {
                 return
-                  (okCommand = new RelayCommand((o) =>
-                  {
-                      if (EmployeeWindow != null)
-                          EmployeeWindow.DialogResult = true;
-                  }));
+                (okCommand = new RelayCommand((o) =>
+                {
+                    if (EmployeeWindow != null)
+                    {
+                        if ((Employee?.LastName == null) || (Employee?.LastName.Trim().Length == 0))
+                        {
+                            MessageBox.Show("Не введена фамилия сотрудника.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        if ((Employee?.FirstName == null) || (Employee?.FirstName.Trim().Length == 0))
+                        {
+                            MessageBox.Show("Не введено имя сотрудника.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        if (DateTime.Now.AddYears(-14) < Employee?.BirthDate)
+                        {
+                            MessageBox.Show("Сотрудник не может быть моложе 14 лет.", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        EmployeeWindow.DialogResult = true;
+                    }
+                }));
             }
         }
     }

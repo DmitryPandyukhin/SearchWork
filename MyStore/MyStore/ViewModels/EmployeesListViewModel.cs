@@ -35,7 +35,7 @@ namespace MyStore.ViewModels
                 return 
                   (addCommand = new RelayCommand((o) =>
                   {
-                      Employee vm = new() { BirthDate = DateTime.Now };
+                      Employee vm = new() { BirthDate = DateTime.Now.AddYears(-14) };
                       if (new EmployeeViewModel(DataService, vm).OpenWindow())
                       {
                           DataService.AddEmloyee(vm);

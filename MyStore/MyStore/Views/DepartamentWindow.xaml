@@ -38,23 +38,25 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel >
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Название:</Label>
-                <TextBox Name="Name" Text="{Binding Departament.Name,
-                    ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button IsDefault="True" Command="{ Binding OkCommand }">OK</Button>
+                <Button IsCancel="True" >Отмена</Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Руководитель:</Label>
-                <ComboBox ItemsSource="{Binding Path=Employees}" 
-                    SelectedItem="{Binding Path=ManagerItem}"
-                    DisplayMemberPath="FullName"/>
+            <StackPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Название:</Label>
+                    <TextBox Name="Name" Text="{Binding Departament.Name,
+                        ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Руководитель:</Label>
+                    <ComboBox ItemsSource="{Binding Path=Employees}" 
+                        SelectedItem="{Binding Path=ManagerItem}"
+                        DisplayMemberPath="FullName"/>
+                </StackPanel>
             </StackPanel>
-
-        </StackPanel>
-        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button IsDefault="True" Command="{ Binding OkCommand }">OK</Button>
-            <Button IsCancel="True" >Отмена</Button>
-        </StackPanel>
+        
+        </DockPanel>
     </Grid>
 </Window>

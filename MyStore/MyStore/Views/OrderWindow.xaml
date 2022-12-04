@@ -37,7 +37,12 @@
         <models:IntConverter x:Key="intConverter" />
     </Window.Resources>
     <Grid>
-            <StackPanel >
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button IsDefault="True" Command="{ Binding OkCommand }" >OK</Button>
+                <Button IsCancel="True" >Отмена</Button>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110">Номер:</Label>
                     <TextBox Name="TextBox1" Text="{Binding Order.Number,
@@ -52,17 +57,14 @@
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110" >Сотрудник:</Label>
                     <ComboBox ItemsSource="{Binding Path = Employees}" 
-                        SelectedItem="{Binding Path=EmployeeItem}"
-                        DisplayMemberPath="FullName"/>
+                            SelectedItem="{Binding Path=EmployeeItem}"
+                            DisplayMemberPath="FullName"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label MinWidth="110">Теги:</Label>
-                <TextBox Text="{Binding TagsStringEditable}" ToolTip="Слова и фразы разделяются запятыми."/>
+                    <TextBox Text="{Binding TagsStringEditable}" ToolTip="Слова и фразы разделяются запятыми."/>
+                </StackPanel>
             </StackPanel>
-            </StackPanel>
-            <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button IsDefault="True" Command="{ Binding OkCommand }" >OK</Button>
-                <Button IsCancel="True" >Отмена</Button>
-            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

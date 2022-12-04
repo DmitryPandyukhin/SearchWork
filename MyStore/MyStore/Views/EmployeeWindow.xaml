@@ -45,43 +45,44 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel >
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Фамилия:</Label>
-                <TextBox Name="LastName" Text="{Binding Employee.LastName,
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button IsDefault="True" Command="{ Binding OkCommand }">OK</Button>
+                <Button IsCancel="True" >Отмена</Button>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Фамилия:</Label>
+                    <TextBox Name="LastName" Text="{Binding Employee.LastName,
                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Имя:</Label>
-                <TextBox Name="FirstName" Text="{Binding Employee.FirstName,
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Имя:</Label>
+                    <TextBox Name="FirstName" Text="{Binding Employee.FirstName,
                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Отчество:</Label>
-                <TextBox Name="MiddleName" Text="{Binding Employee.MiddleName}" ></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Дата рождения:</Label>
-                <DatePicker Name="BirthDate" SelectedDate="{Binding Employee.BirthDate,
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Отчество:</Label>
+                    <TextBox Name="MiddleName" Text="{Binding Employee.MiddleName}" ></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Дата рождения:</Label>
+                    <DatePicker Name="BirthDate" SelectedDate="{Binding Employee.BirthDate,
                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Пол:</Label>
-                <ComboBox ItemsSource="{Binding Path=Sexs}" 
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Пол:</Label>
+                    <ComboBox ItemsSource="{Binding Path=Sexs}" 
                     SelectedItem="{Binding Path=SexItem}"
                     />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label MinWidth="110">Подразделение:</Label>
-                <ComboBox ItemsSource="{Binding Path=Departaments}" 
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label MinWidth="110">Подразделение:</Label>
+                    <ComboBox ItemsSource="{Binding Path=Departaments}" 
                     SelectedItem="{Binding Path=DepartamentItem}"
                     DisplayMemberPath="Name"/>
+                </StackPanel>
             </StackPanel>
-
-        </StackPanel>
-        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button IsDefault="True" Command="{ Binding OkCommand }">OK</Button>
-            <Button IsCancel="True" >Отмена</Button>
-        </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

@@ -14,8 +14,8 @@ namespace MyStore.Models
     public class Employee : NotifyPropertyChanged, IEmployee
     {
         public int EmployeeId { get; set; }
-        string? lastName;
-        public string? LastName
+        string lastName;
+        public string LastName
         {
             get { return lastName; }
             set
@@ -25,8 +25,8 @@ namespace MyStore.Models
                 OnPropertyChanged("LastName");
             }
         }
-        string? firstName;
-        public string? FirstName
+        string firstName;
+        public string FirstName
         {
             get { return firstName; }
             set

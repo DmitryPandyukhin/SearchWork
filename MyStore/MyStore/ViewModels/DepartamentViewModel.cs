@@ -21,12 +21,12 @@ namespace MyStore.ViewModels
         // Справочник
         public ObservableCollection<Employee>? Employees { get; set; }
 
-        public DepartamentViewModel(IDataService dataService, IDepartament departament)
+        public DepartamentViewModel(IDepartament departament)
         {
             Departament = (Departament)departament;
 
             // Загружаем справочник сотрудников
-            Employees = dataService.GetEmloyeesList();
+            Employees = StaticDataService.GetEmloyeesList();
         }
 
         public bool OpenWindow()

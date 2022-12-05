@@ -21,12 +21,12 @@ namespace MyStore.ViewModels
         public Order Order { get; set; }
         public ObservableCollection<Employee>? Employees { get; set; }
 
-        public OrderViewModel(IDataService dataService, IOrder order)
+        public OrderViewModel(IOrder order)
         {
             Order = (Order)order;
             
             // Справочник сотрудников.
-            Employees = dataService.GetEmloyeesList();
+            Employees = StaticDataService.GetEmloyeesList();
         }
 
         public bool OpenWindow()

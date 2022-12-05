@@ -14,15 +14,11 @@ namespace MyStore.ViewModels
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
 
-        IDataService DataService { get; }
-
         EmployeesListWindow EmployeesListWindow { get; }
         public ObservableCollection<Employee>? Employees { get; set; }
-        public EmployeesListViewModel(IDataService dataService)
+        public EmployeesListViewModel()
         {
-            Employees = dataService.GetEmloyeesList();
-
-            this.DataService = dataService;
+            Employees = StaticDataService.GetEmloyeesList();
 
             EmployeesListWindow = new EmployeesListWindow(this);
             EmployeesListWindow.ShowDialog();
@@ -36,9 +32,9 @@ namespace MyStore.ViewModels
                   (addCommand = new RelayCommand((o) =>
                   {
                       Employee vm = new() { BirthDate = DateTime.Now.AddYears(-14) };
-                      if (new EmployeeViewModel(DataService, vm).OpenWindow())
+                      if (new EmployeeViewModel(vm).OpenWindow())
                       {
-                          DataService.AddEmloyee(vm);
+                          StaticDataService.AddEmloyee(vm);
                       };
                   }));
             }
@@ -64,9 +60,9 @@ namespace MyStore.ViewModels
                           Sex = employee.Sex,
                       };
                       if (employee.Departament != null)
-                          vm.Departament = (Departament?)DataService.GetDepartament(employee.Departament.DepartamentId);
+                          vm.Departament = (Departament?)StaticDataService.GetDepartament(employee.Departament.DepartamentId);
 
-                      if (new EmployeeViewModel(DataService, vm).OpenWindow())
+                      if (new EmployeeViewModel(vm).OpenWindow())
                       {
                           employee.LastName = vm.LastName;
                           employee.FirstName = vm.FirstName;
@@ -74,9 +70,9 @@ namespace MyStore.ViewModels
                           employee.BirthDate = vm.BirthDate;
                           employee.Sex = vm.Sex;
                           if (vm.Departament != null)
-                            employee.Departament = (Departament?)DataService.GetDepartament(vm.Departament.DepartamentId);
+                            employee.Departament = (Departament?)StaticDataService.GetDepartament(vm.Departament.DepartamentId);
 
-                          DataService.EditEmloyee(employee);
+                          StaticDataService.EditEmloyee(employee);
                       }
                   }));
             }
@@ -92,7 +88,7 @@ namespace MyStore.ViewModels
                       // получаем выделенный объект
                       if (selectedItem is not Employee employee) return;
 
-                      DataService.DeleteEmloyee(employee);
+                      StaticDataService.DeleteEmloyee(employee);
                   }));
             }
         }

@@ -1,59 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyStore.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Controls;
+using Microsoft.EntityFrameworkCore;
+using MyStore.Models;
 
 namespace MyStore.Services
 {
-    /// <summary>
-    /// Только работа с контекстом: получение, запись, изменение, удаление.
-    /// Функционала по изменению обхектов быть не должно.
-    /// </summary>
-    /*public interface IDataService
+    public static class StaticDataService
     {
-        // Сотрудники
-        IEmployee? GetEmloyee(int employeeId);
-        void AddEmloyee(IEmployee employee);
-        void EditEmloyee(IEmployee employee);
-        void DeleteEmloyee(IEmployee employee);
-        ObservableCollection<Employee>? GetEmloyeesList();
-
-        // Подразделения
-        IDepartament? GetDepartament(int departamentId);
-        void AddDepartament(IDepartament departament);
-        
-        void EditDepartament(IDepartament departament);
-        void DeleteDepartament(IDepartament departament);
-        ObservableCollection<Departament>? GetDepartamentsList();
-
-        // Заказы
-        //IOrder? GetOrder(int orderId);
-        void AddOrder(IOrder order);
-        // Здесь просто сохраняем. ОБъект уже изменен по ссылке
-        void EditOrder(IOrder order);
-        void DeleteOrder(IOrder order);
-        ObservableCollection<Order>? GetOrdersList();
-
-        // Теги
-        ObservableCollection<Tag> GetTagsForOrders(int orderId);
-
-        void SaveChages();
-    }
-    public class DataService : IDataService
-    {
-        MyStoreContext DB { get; }
-        public DataService()
+        static MyStoreContext DB { get; set; }
+        static StaticDataService()
         {
             DB = new MyStoreContext();
 
             // пересоздаем БД
-            //db.Database.EnsureDeleted();
+            //DB.Database.EnsureDeleted();
             // гарантируем, что БД создана
             DB.Database.EnsureCreated();
             // Тестовые данные
@@ -76,7 +40,7 @@ namespace MyStore.Services
                 .Load();
         }
 
-        *//*private void SeedData()
+        private static void SeedData()
         {
             // департаменты
             Departament dep1 = new() { Name = "Dep1" };
@@ -93,105 +57,105 @@ namespace MyStore.Services
 
             // Заказы
             id = DB.Employees.First().EmployeeId;
-            Order order = new () { Number = 123, ProductName = "Product1", EmployeeId = id };
+            Order order = new() { Number = 123, ProductName = "Product1", EmployeeId = id };
             DB.Orders.Add(order);
             DB.SaveChanges();
-        }*//*
+        }
 
         // Сотрудники
-        public IEmployee? GetEmloyee(int employeeId)
+        public static IEmployee? GetEmloyee(int employeeId)
         {
             return (IEmployee?)DB.Employees.Local?.FirstOrDefault(e => e.EmployeeId == employeeId);
         }
-        public ObservableCollection<Employee> GetEmloyeesList()
+        public static ObservableCollection<Employee> GetEmloyeesList()
         {
             return DB.Employees.Local.ToObservableCollection();
         }
 
         // Подразделения
-        public IDepartament? GetDepartament(int departamentId)
+        public static IDepartament? GetDepartament(int departamentId)
         {
             return (IDepartament?)DB.Departaments.Local?.FirstOrDefault(d => d.DepartamentId == departamentId);
         }
-        public ObservableCollection<Departament> GetDepartamentsList()
+        public static ObservableCollection<Departament> GetDepartamentsList()
         {
             return DB.Departaments.Local.ToObservableCollection();
         }
 
         // Заказы
-        *//*public IOrder? GetOrder(int orderId)
+        /*public IOrder? GetOrder(int orderId)
         {
             return (IOrder?)db.Orders.Local?.FirstOrDefault(o => o.OrderId == orderId);
-        }*//*
-        public ObservableCollection<Order>? GetOrdersList()
+        }*/
+        public static ObservableCollection<Order>? GetOrdersList()
         {
             return DB.Orders.Local.ToObservableCollection();
         }
 
-        public void SaveChages()
+        public static void SaveChages()
         {
             DB.SaveChanges();
         }
 
-        public void AddEmloyee(IEmployee employee)
+        public static void AddEmloyee(IEmployee employee)
         {
             DB.Add(employee);
             SaveChages();
         }
 
-        public void EditEmloyee(IEmployee employee)
+        public static void EditEmloyee(IEmployee employee)
         {
             DB.Entry(employee).State = EntityState.Modified;
             SaveChages();
         }
 
-        public void DeleteEmloyee(IEmployee employee)
+        public static void DeleteEmloyee(IEmployee employee)
         {
             DB.Remove(employee);
             SaveChages();
         }
 
-        public void AddDepartament(IDepartament departament)
+        public static void AddDepartament(IDepartament departament)
         {
-            DB.Add(departament); 
+            DB.Add(departament);
             SaveChages();
         }
 
-        public void EditDepartament(IDepartament departament)
+        public static void EditDepartament(IDepartament departament)
         {
             DB.Entry(departament).State = EntityState.Modified;
             SaveChages();
         }
 
-        public void DeleteDepartament(IDepartament departament)
+        public static void DeleteDepartament(IDepartament departament)
         {
             DB.Remove(departament);
             SaveChages();
         }
 
-        public void AddOrder(IOrder order)
+        public static void AddOrder(IOrder order)
         {
             DB.Add(order);
             SaveChages();
         }
 
-        public void EditOrder(IOrder order)
+        public static void EditOrder(IOrder order)
         {
             DB.Entry(order).State = EntityState.Modified;
             SaveChages();
         }
 
-        public void DeleteOrder(IOrder order)
+        public static void DeleteOrder(IOrder order)
         {
             DB.Remove(order);
             SaveChages();
         }
 
-        public ObservableCollection<Tag> GetTagsForOrders(int orderId)
+        public static ObservableCollection<Tag> GetTagsForOrders(int orderId)
         {
             return new ObservableCollection<Tag>(
                 DB.Tags.Local
                 .Where(t => t.OrderId == orderId));
         }
-    }*/
+    }
 }

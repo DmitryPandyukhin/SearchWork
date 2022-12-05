@@ -20,12 +20,12 @@ namespace MyStore.ViewModels
 
         EmployeeWindow? EmployeeWindow { get; set; }
         RelayCommand? okCommand;
-        public EmployeeViewModel(IDataService dataService, IEmployee employee)
+        public EmployeeViewModel(IEmployee employee)
         {
             Employee = (Employee)employee;
 
             // Cправочник подразделений
-            Departaments = dataService.GetDepartamentsList();
+            Departaments = StaticDataService.GetDepartamentsList();
 
             // Справочник половой принадлежности
             Sexs = new(Enum.GetNames(typeof(Sex)));

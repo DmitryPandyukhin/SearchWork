@@ -9,16 +9,9 @@ namespace MyStore.ViewModels
     public class MainViewModel
     {
 
-        IDataService DataService { get; }
-
         RelayCommand? openOrdersCommand;
         RelayCommand? openEmployeesCommand;
         RelayCommand? openDepartamentsCommand;
-
-        public MainViewModel()
-        {
-            DataService = new DataService();
-        }
 
         public RelayCommand OpenOrdersCommand
         {
@@ -27,7 +20,7 @@ namespace MyStore.ViewModels
                 return
                   (openOrdersCommand = new RelayCommand((o) =>
                   {
-                      _ = new OrdersListViewModel(DataService);
+                      _ = new OrdersListViewModel();
                   }));
             }
         }
@@ -38,7 +31,7 @@ namespace MyStore.ViewModels
                 return
                   (openEmployeesCommand = new RelayCommand((o) =>
                   {
-                      _ = new EmployeesListViewModel(DataService);
+                      _ = new EmployeesListViewModel();
                   }));
             }
         }
@@ -50,7 +43,7 @@ namespace MyStore.ViewModels
                 return
                   (openDepartamentsCommand = new RelayCommand((o) =>
                   {
-                      _ = new DepartamentsListViewModel(DataService);
+                      _ = new DepartamentsListViewModel();
                   }));
             }
         }

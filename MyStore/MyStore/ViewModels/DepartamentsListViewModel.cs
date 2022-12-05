@@ -15,13 +15,10 @@ namespace MyStore.ViewModels
         RelayCommand? deleteCommand;
         DepartamentsListWindow DepartamentsListWindow { get; }
 
-        DataService DataService { get; }
         public ObservableCollection<Departament> Departaments { get; set; }
-        public DepartamentsListViewModel(IDataService dataService)
+        public DepartamentsListViewModel()
         {
-            DataService = (DataService)dataService;
-
-            Departaments = DataService.GetDepartamentsList();
+            Departaments = StaticDataService.GetDepartamentsList();
 
             DepartamentsListWindow = new DepartamentsListWindow(this);
             DepartamentsListWindow.ShowDialog();
@@ -35,8 +32,8 @@ namespace MyStore.ViewModels
                     (addCommand = new RelayCommand((o) =>
                     {
                         Departament vm = new ();
-                        if (new DepartamentViewModel(DataService, vm).OpenWindow())
-                            DataService.AddDepartament(vm);
+                        if (new DepartamentViewModel(vm).OpenWindow())
+                            StaticDataService.AddDepartament(vm);
                     }));
             }
         }
@@ -56,15 +53,15 @@ namespace MyStore.ViewModels
                           Name = departament.Name,
                       };
                       if (departament?.Manager != null)
-                          vm.Manager = (Employee?)DataService.GetEmloyee(departament.Manager.EmployeeId);
+                          vm.Manager = (Employee?)StaticDataService.GetEmloyee(departament.Manager.EmployeeId);
 
-                      if (new DepartamentViewModel(DataService, vm).OpenWindow())
+                      if (new DepartamentViewModel(vm).OpenWindow())
                       {
                           departament!.Name = vm.Name;
                           if (vm.Manager != null)
-                              departament.Manager = (Employee?)DataService.GetEmloyee(vm.Manager.EmployeeId);
+                              departament.Manager = (Employee?)StaticDataService.GetEmloyee(vm.Manager.EmployeeId);
 
-                          DataService.EditDepartament(departament);
+                          StaticDataService.EditDepartament(departament);
                       }
                   }));
             }
@@ -81,7 +78,7 @@ namespace MyStore.ViewModels
                       // если ни одного объекта не выделено, выходим
                       if (selectedItem is not Departament departament) return;
 
-                      DataService.DeleteDepartament(departament);
+                      StaticDataService.DeleteDepartament(departament);
                   }));
             }
         }

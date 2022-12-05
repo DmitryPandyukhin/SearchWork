@@ -14,16 +14,14 @@ namespace MyStore.ViewModels
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
 
-        IDataService DataService { get; }
 
         OrdersListWindow OrdersListWindow { get; }
         public ObservableCollection<Order>? Orders { get; set; }
 
-        public OrdersListViewModel(IDataService dataService)
+        public OrdersListViewModel()
         {
-            DataService = dataService;
 
-            Orders = dataService.GetOrdersList();
+            Orders = StaticDataService.GetOrdersList();
 
             OrdersListWindow = new OrdersListWindow(this);
             OrdersListWindow.ShowDialog();
@@ -37,9 +35,9 @@ namespace MyStore.ViewModels
                   (addCommand = new RelayCommand((o) =>
                   {
                       Order vm = new();
-                      if (new OrderViewModel(DataService, vm).OpenWindow())
+                      if (new OrderViewModel(vm).OpenWindow())
                       {
-                          DataService.AddOrder(vm);
+                          StaticDataService.AddOrder(vm);
                       };
                   }));
             }
@@ -62,18 +60,18 @@ namespace MyStore.ViewModels
                         };
 
                         if (order.Employee != null)
-                            vm.Employee = (Employee?)DataService.GetEmloyee(order.Employee.EmployeeId);
+                            vm.Employee = (Employee?)StaticDataService.GetEmloyee(order.Employee.EmployeeId);
 
                         if (order.Tags != null)
-                            vm.Tags = DataService.GetTagsForOrders(order.OrderId);
+                            vm.Tags = StaticDataService.GetTagsForOrders(order.OrderId);
 
-                        if (new OrderViewModel(DataService, vm).OpenWindow())
+                        if (new OrderViewModel(vm).OpenWindow())
                         {
                             order.Number = vm.Number;
                             order.ProductName = vm.ProductName;
 
                             if (vm.Employee != null)
-                                order.Employee = (Employee?)DataService.GetEmloyee(vm.Employee.EmployeeId);
+                                order.Employee = (Employee?)StaticDataService.GetEmloyee(vm.Employee.EmployeeId);
 
                             if (vm.Tags != null)
                             {
@@ -82,7 +80,7 @@ namespace MyStore.ViewModels
                                 order!.Tags = vm.Tags;
                             }
 
-                            DataService.EditOrder(order);
+                            StaticDataService.EditOrder(order);
                         }
                   }));
             }
@@ -97,7 +95,7 @@ namespace MyStore.ViewModels
                   {
                       // если ни одного объекта не выделено, выходим
                       if (selectedItem is not Order order) return;
-                      DataService.DeleteOrder(order);
+                      StaticDataService.DeleteOrder(order);
                   }));
             }
         }

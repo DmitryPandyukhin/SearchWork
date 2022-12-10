@@ -1,13 +1,13 @@
 /* 
-ПОСТАНОВКА ЗАДАЧИ
-	В базе данных MS SQL Server есть продукты и категории. 
-	Одному продукту может соответствовать много категорий, 
-	в одной категории может быть много продуктов. Напишите SQL 
-	запрос для выбора всех пар «Имя продукта – Имя категории». 
-	Если у продукта нет категорий, то его имя все равно должно выводиться.
+РџРћРЎРўРђРќРћР’РљРђ Р—РђР”РђР§Р
+	Р’ Р±Р°Р·Рµ РґР°РЅРЅС‹С… MS SQL Server РµСЃС‚СЊ РїСЂРѕРґСѓРєС‚С‹ Рё РєР°С‚РµРіРѕСЂРёРё. 
+	РћРґРЅРѕРјСѓ РїСЂРѕРґСѓРєС‚Сѓ РјРѕР¶РµС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ РјРЅРѕРіРѕ РєР°С‚РµРіРѕСЂРёР№, 
+	РІ РѕРґРЅРѕР№ РєР°С‚РµРіРѕСЂРёРё РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРЅРѕРіРѕ РїСЂРѕРґСѓРєС‚РѕРІ. РќР°РїРёС€РёС‚Рµ SQL 
+	Р·Р°РїСЂРѕСЃ РґР»СЏ РІС‹Р±РѕСЂР° РІСЃРµС… РїР°СЂ В«РРјСЏ РїСЂРѕРґСѓРєС‚Р° вЂ“ РРјСЏ РєР°С‚РµРіРѕСЂРёРёВ». 
+	Р•СЃР»Рё Сѓ РїСЂРѕРґСѓРєС‚Р° РЅРµС‚ РєР°С‚РµРіРѕСЂРёР№, С‚Рѕ РµРіРѕ РёРјСЏ РІСЃРµ СЂР°РІРЅРѕ РґРѕР»Р¶РЅРѕ РІС‹РІРѕРґРёС‚СЊСЃСЏ.
 */
 
--- СКРИПТ РЕШЕНИЯ ЗАДАЧИ
+-- РЎРљР РРџРў Р Р•РЁР•РќРРЇ Р—РђР”РђР§Р
 select * 
 from products p
 left join link_product_category l
@@ -15,17 +15,17 @@ on p.productid = l.productid
 left join categories c on l.categoryid = c.categoryid;
 
 /* 
-СКРИПТЫ СОЗДАНИЯ И НАСТРОЙКИ ТАБЛИЦ БД. 
+РЎРљР РРџРўР« РЎРћР—Р”РђРќРРЇ Р РќРђРЎРўР РћР™РљР РўРђР‘Р›РР¦ Р‘Р”. 
 
-ТАБЛИЦЫ: 
-	products - хранит продукты;
-	categories - хранит категории
-	link_product_category - хранит связи таблиц продуктов и категорий.
+РўРђР‘Р›РР¦Р«: 
+	products - С…СЂР°РЅРёС‚ РїСЂРѕРґСѓРєС‚С‹;
+	categories - С…СЂР°РЅРёС‚ РєР°С‚РµРіРѕСЂРёРё
+	link_product_category - С…СЂР°РЅРёС‚ СЃРІСЏР·Рё С‚Р°Р±Р»РёС† РїСЂРѕРґСѓРєС‚РѕРІ Рё РєР°С‚РµРіРѕСЂРёР№.
 
-ПРИМЕЧАНИЕ: 
-	ИНДЕКСЫ НЕ СОЗДАНЫ, ТАК КАК СЕЛЕКТИВНОСТЬ НА ЭТАПЕ СОЗДАНИЯ ТАБЛИЦ ПОЗВОЛЯЕТ ОБХОДИТЬСЯ БЕЗ НИХ.
+РџР РРњР•Р§РђРќРР•: 
+	РРќР”Р•РљРЎР« РќР• РЎРћР—Р”РђРќР«, РўРђРљ РљРђРљ РЎР•Р›Р•РљРўРР’РќРћРЎРўР¬ РќРђ Р­РўРђРџР• РЎРћР—Р”РђРќРРЇ РўРђР‘Р›РР¦ РџРћР—Р’РћР›РЇР•Рў РћР‘РҐРћР”РРўР¬РЎРЇ Р‘Р•Р— РќРРҐ.
 
---ТАБЛИЦА СВЯЗЕЙ ПРОДУКТОВ И КАТЕГОРИЙ
+--РўРђР‘Р›РР¦Рђ РЎР’РЇР—Р•Р™ РџР РћР”РЈРљРўРћР’ Р РљРђРўР•Р“РћР РР™
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[link_product_category]') AND type in (N'U'))
 DROP TABLE [dbo].[link_product_category]
 
@@ -39,7 +39,7 @@ CREATE TABLE [dbo].[link_product_category](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
---ПРОДУКТЫ
+--РџР РћР”РЈРљРўР«
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[products]') AND type in (N'U'))
 DROP TABLE [dbo].[products]
 GO
@@ -53,7 +53,7 @@ CREATE TABLE [dbo].[products](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
---КАТЕГОРИИ
+--РљРђРўР•Р“РћР РР
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[categories]') AND type in (N'U'))
 DROP TABLE [dbo].[categories]
 
@@ -66,7 +66,7 @@ CREATE TABLE [dbo].[categories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
---НАСТРОЙКА ТАБЛИЦЫ СО СВЯЗЯМИ ПРОДУКТОВ И КАТЕГОРИЙ
+--РќРђРЎРўР РћР™РљРђ РўРђР‘Р›РР¦Р« РЎРћ РЎР’РЇР—РЇРњР РџР РћР”РЈРљРўРћР’ Р РљРђРўР•Р“РћР РР™
 ALTER TABLE [dbo].[link_product_category]  WITH CHECK ADD  CONSTRAINT [FK_link_product_category_products] FOREIGN KEY([productid])
 REFERENCES [dbo].[products] ([productid])
 
@@ -77,7 +77,7 @@ REFERENCES [dbo].[categories] ([categoryid])
 
 ALTER TABLE [dbo].[link_product_category] CHECK CONSTRAINT [FK_link_product_category_categories]
 
---ЗАПОЛНЕНИЕ ТАБЛИЦ
+--Р—РђРџРћР›РќР•РќРР• РўРђР‘Р›РР¦
 insert into products (name) values ('product1');
 insert into products (name) values ('product2');
 insert into products (name) values ('product3');

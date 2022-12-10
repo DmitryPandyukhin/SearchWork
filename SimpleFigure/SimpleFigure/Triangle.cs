@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleFigure
+﻿namespace SimpleFigure
 {
     internal interface ITriangle
     {
@@ -14,21 +8,25 @@ namespace SimpleFigure
         bool? CheckRightTriangle();
     }
 
-    public class Triangle : IFigure, ITriangle
+    public class Triangle : Figure, ITriangle
     {
         public double A { get; }
         public double B { get; }
         public double C { get; }
-
-        public double Square { get; set; }
-
         public Triangle(double a, double b, double c)
         {
+            if ((a < 0) || (b < 0) || (c < 0))
+                throw new ArgumentOutOfRangeException("Значение должно быть положительным");
+
             A = a;
             B = b;
             C = c;
         }
 
+        /// <summary>
+        /// Вычисление площади треугольника.
+        /// </summary>
+        /// <returns>True - площадь вычислена. False - не удалось вычислить площадь.</returns>
         public bool СalculateSquare()
         {
             try

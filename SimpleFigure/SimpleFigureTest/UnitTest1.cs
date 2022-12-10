@@ -1,4 +1,3 @@
-using System.Numerics;
 using SimpleFigure;
 
 namespace SimpleFigureTest
@@ -6,46 +5,77 @@ namespace SimpleFigureTest
     [TestClass]
     public class UnitTest1
     {
-        /** которая умеет вычислять площадь круга по радиусу и треугольника по трем сторонам.
-     * Дополнительно к работоспособности оценим:
-     * - Юнит-тесты
-     * - Легкость добавления других фигур
-     * - Вычисление площади фигуры без знания типа фигуры в compile-time
-     * - Проверку на то, является ли треугольник прямоугольным*/
+        /// <summary>
+        /// Тест на отрицательность входных данных.
+        /// </summary>
+        [TestMethod]
+        public void TestNegativeArguments()
+        {
+            // круг
+            double radius = -5;
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Circle(radius));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Figure().СalculateSquare(radius));
 
-        // Тест на правильность вычисления площади круга
+            // треугольник
+            double a = -5;
+            double b = 5;
+            double c = 5;
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Triangle(a, b, c));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Figure().СalculateSquare(a, b, c));
+            a = 5;
+            b = -5;
+            c = 5;
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Triangle(a, b, c));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Figure().СalculateSquare(a, b, c));
+            a = 5;
+            b = 5;
+            c = -5;
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Triangle(a, b, c));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Figure().СalculateSquare(a, b, c));
+        }
+
+        /// <summary>
+        /// Тест на правильность вычисления площади круга.
+        /// </summary>
         [TestMethod]
         public void TestСalculateCircleArea()
         {
-            // Радиус круга
             double radius = 5;
-            // Площадь круга
-            double s = Math.PI * (Math.Pow(radius, 2));
+            double expected = Math.PI * (Math.Pow(radius, 2));
 
+            // Площадь круга.
             Circle circle = new(radius);
+            circle.СalculateSquare();
+            Assert.AreEqual(expected, circle.Square);
 
-            if (circle.СalculateSquare())
-                Assert.AreEqual(s, circle.Square);
+            Figure figure = new Figure();
+            figure.СalculateSquare(radius);
+            Assert.AreEqual(expected, figure.Square);
         }
 
-        // Тест на правильность вычисления площади треугольника
+        /// <summary>
+        /// Тест на правильность вычисления площади треугольника.
+        /// </summary>
         [TestMethod]
         public void TestСalculateTriangleArea()
         {
-            // Стороны треугольника
             double a = 5;
             double b = 6;
             double c = 2.2;
-            // Площадь треугольника
             double s = 5.28;
 
             Triangle triangle = new(a, b, c);
+            triangle.СalculateSquare();
+            Assert.AreEqual(s, Math.Round(triangle.Square, 2));
 
-            if (triangle.СalculateSquare())
-                Assert.AreEqual(s, Math.Round(triangle.Square, 2));
+            Figure figure = new Figure();
+            figure.СalculateSquare(a, b, c);
+            Assert.AreEqual(s, Math.Round(figure.Square, 2));
         }
 
-        // Тест проверки на то, является ли треугольник прямоугольным.
+        /// <summary>
+        /// Тест проверки на то, является ли треугольник прямоугольным.
+        /// </summary>
         [TestMethod]
         public void TestCheckRightTriangle()
         {
@@ -53,9 +83,9 @@ namespace SimpleFigureTest
             double b = 8;
             double c = 10;
 
+            // Треугольник прямоугольный.
             Triangle circle = new(a, b, c);
             bool? result = circle.CheckRightTriangle();
-            // Треугольник прямоугольный.
             Assert.AreEqual(true, result);
 
             a = 6;
@@ -66,16 +96,5 @@ namespace SimpleFigureTest
             // Треугольник непрямоугольный.
             Assert.AreEqual(false, result);
         }
-
-        // Тест на вычисление площади фигуры без знания типа фигуры в compile-time.
-        [TestMethod]
-        /*public void TestСalculateFigureArea()
-        {
-            _ = new StaticFigure();
-            double expected = Math.PI * (StaticFigure.Radius)
-            double Square = StaticFigure.Figure.Square;
-
-
-        }*/
     }
 }

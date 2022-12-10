@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleFigure
+﻿namespace SimpleFigure
 {
     public interface IFigure
     {
@@ -12,10 +6,12 @@ namespace SimpleFigure
         /// Площадь
         /// </summary>
         double Square { get; set; }
+
         /// <summary>
-        /// Вычисление площади фигуры.
+        /// Вычисление площади фигуры без знания типа фигуры в compile-time.
         /// </summary>
+        /// <param name="prm">Входные данные.</param>
         /// <returns>True - площадь вычислена. False - не удалось вычислить площадь.</returns>
-        bool СalculateSquare();
+        bool СalculateSquare(params double[] prm);
     }
 }

@@ -10,19 +10,4 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="figure.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>figure.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="figure.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>figure.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
 </Project>

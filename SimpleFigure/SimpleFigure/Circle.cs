@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleFigure
+﻿namespace SimpleFigure
 {
     internal interface ICircle
     {
+        /// <summary>
+        /// Радиус круга.
+        /// </summary>
         double Radius { get; }
     }
 
-    public class Circle : IFigure, ICircle
+    public class Circle : Figure, ICircle
     {
-        public double Square { get; set; }
-        // Радиус круга.
         public double Radius { get; }
 
         public Circle(double radius)
         {
+            if (radius < 0)
+                throw new ArgumentOutOfRangeException("Значение должно быть положительным");
+
             Radius = radius;
         }
 
+        /// <summary>
+        /// Вычисление площади круга.
+        /// </summary>
+        /// <returns>True - площадь вычислена. False - не удалось вычислить площадь.</returns>
         public bool СalculateSquare()
         {
             try

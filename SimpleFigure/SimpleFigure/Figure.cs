@@ -1,69 +1,52 @@
-﻿using System.Configuration;
-using System.Collections.Specialized;
-
-namespace SimpleFigure
+﻿namespace SimpleFigure
 {
-    /*
-     * Напишите на C# библиотеку для поставки внешним клиентам, 
-     * которая умеет вычислять площадь круга по радиусу и треугольника по трем сторонам. 
-     * Дополнительно к работоспособности оценим:
-     * - Юнит-тесты
-     * - Легкость добавления других фигур
-     * - Вычисление площади фигуры без знания типа фигуры в compile-time
-     * - Проверку на то, является ли треугольник прямоугольным
-     */
-
-    public class StaticFigure
+    public class Figure : IFigure
     {
-        public static IFigure? Figure { get; }
-        public static double Radius { get; }
-        static double A { get; }
-        static double B { get; }
-        static double C { get; }
+        public double Square { get; set; }
 
-        static StaticFigure()
+        public bool СalculateSquare(params double[] prm)
         {
-            string? settingValue = ConfigurationManager.AppSettings.Get("Radius");
-            if (settingValue != null)
+            if (prm.Length == 1)
             {
-                Radius = double.Parse(settingValue);
+                return СalculateSquare(prm[0]);
+            }
+            if (prm.Length == 3)
+            {
+                return СalculateSquare(prm[0], prm[1], prm[2]);
             }
 
-            settingValue = ConfigurationManager.AppSettings.Get("A");
-            if (settingValue != null)
-            {
-                A = double.Parse(settingValue);
-            }
+            return false;
+        }
 
-            settingValue = ConfigurationManager.AppSettings.Get("B");
-            if (settingValue != null)
-            {
-                A = double.Parse(settingValue);
-            }
+        /// <summary>
+        /// Вычисление круга по радиусу.
+        /// </summary>
+        /// <param name="radius">Радиус</param>
+        /// <returns>True - площадь вычислена. False - не удалось вычислить площадь.</returns>
+        private bool СalculateSquare(double radius)
+        {
+            Circle circle = new Circle(radius);
 
-            settingValue = ConfigurationManager.AppSettings.Get("C");
-            if (settingValue != null)
-            {
-                A = double.Parse(settingValue);
-            }
+            bool result = circle.СalculateSquare();
+            Square = circle.Square;
 
-            settingValue = ConfigurationManager.AppSettings.Get("FigureType")?.Trim().ToLower();
+            return result;
+        }
+        /// <summary>
+        /// Вычисление площади по 3 стороном.
+        /// </summary>
+        /// <param name="a">Сторона треугольника.</param>
+        /// <param name="b">Сторона треугольника.</param>
+        /// <param name="c">Сторона треугольника.</param>
+        /// <returns>True - площадь вычислена. False - не удалось вычислить площадь.</returns>
+        private bool СalculateSquare(double a, double b, double c)
+        {
+            Triangle triangle = new(a, b, c);
 
-            Figure = settingValue switch
-            {
-                "circle" => new Circle(Radius),
-                "triangle" => new Triangle(A, B, C),
-                _ => null,
-            };
+            bool result = triangle.СalculateSquare();
+            Square = triangle.Square;
 
-            Figure?.СalculateSquare();
+            return result;
         }
     }
-
-    
-
-    
-
-    
 }
-    

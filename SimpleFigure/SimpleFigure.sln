@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFigure", "SimpleFigure\SimpleFigure.csproj", "{62F2C59D-34C4-493D-916A-CFB441BB52D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFigureTest", "SimpleFigureTest\SimpleFigureTest.csproj", "{101E9B42-34ED-4296-A55E-743B7016FAC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFigureTest", "SimpleFigureTest\SimpleFigureTest.csproj", "{101E9B42-34ED-4296-A55E-743B7016FAC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

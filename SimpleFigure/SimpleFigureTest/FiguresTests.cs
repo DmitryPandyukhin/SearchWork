@@ -3,7 +3,7 @@ using SimpleFigure;
 namespace SimpleFigureTest
 {
     [TestClass]
-    public class UnitTest1
+    public class FiguresTests
     {
         /// <summary>
         /// Тест на отрицательность входных данных.

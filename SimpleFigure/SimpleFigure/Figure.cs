@@ -2,7 +2,10 @@
 {
     public class Figure : IFigure
     {
-        public double Square { get; set; }
+        /// <summary>
+        /// Площадь
+        /// </summary>
+        public double Square { get; protected set; }
 
         public bool СalculateSquare(params double[] prm)
         {

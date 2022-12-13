@@ -3,11 +3,6 @@
     public interface IFigure
     {
         /// <summary>
-        /// Площадь
-        /// </summary>
-        double Square { get; set; }
-
-        /// <summary>
         /// Вычисление площади фигуры без знания типа фигуры в compile-time.
         /// </summary>
         /// <param name="prm">Входные данные.</param>

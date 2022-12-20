@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace OrdersParser.Models
         public User User { get; set; }
         public List<Product> Products { get; set; }
     }
+    [Index("Name", IsUnique = true, Name = "IX1_Name")]
     internal class Product
     {
         public int ProductId { get; set; }
@@ -29,11 +31,12 @@ namespace OrdersParser.Models
         public int OrderDetailId { get; set; }
         public int OrderId { get; set; }
         // Ссылка на заказ.
-        Order Order { get; set; }
+        public Order Order { get; set; }
         public int ProductId { get; set; }
         // Ссылка на товар
-        Product Product { get; set; }
+        public Product Product { get; set; }
     }
+    [Index("FIO", IsUnique = true, Name = "IX1_FIO")]
     internal class User
     {
         public int UserId { get; set; }

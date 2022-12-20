@@ -39,7 +39,8 @@ namespace OrdersParser.Services
                     temp = orderElement.Element("sum");
                     if (temp is not null)
                     {
-                        order.Sum = decimal.Parse(temp.Value, cultureInfo);
+                        
+                        order.Sum = decimal.Parse(temp.Value.Replace(',', '.'), cultureInfo);
                     }
 
                     order.Products = new();
@@ -64,7 +65,7 @@ namespace OrdersParser.Services
                         temp = productElement.Element("price");
                         if (temp is not null)
                         {
-                            product.Price = decimal.Parse(temp.Value, cultureInfo);
+                            product.Price = decimal.Parse(temp.Value.Replace(',', '.'), cultureInfo);
                         }
 
                         order.Products.Add(product);

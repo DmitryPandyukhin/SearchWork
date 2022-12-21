@@ -7,9 +7,9 @@ namespace OrdersParser.Services
 {
     internal static class XMLParser
     {
-        public static List<Order>? LoadOrders()
+        public static void LoadOrders(string filePath, ref List<Order> ordersList, ref List<Product> productsList)
         {
-            XDocument xdoc = XDocument.Load("orders.xml");
+            XDocument xdoc = XDocument.Load(filePath);
             // получаем корневой узел
             XElement? orders = xdoc.Element("orders");
 
@@ -17,7 +17,6 @@ namespace OrdersParser.Services
 
             if (orders is not null)
             {
-                List<Order> ordersList = new List<Order>();
                 // проходим по всем элементам order
                 foreach (XElement orderElement in orders.Elements("order"))
                 {
@@ -39,21 +38,25 @@ namespace OrdersParser.Services
                     temp = orderElement.Element("sum");
                     if (temp is not null)
                     {
-                        
                         order.Sum = decimal.Parse(temp.Value.Replace(',', '.'), cultureInfo);
                     }
 
-                    order.Products = new();
+                    // Детали заказа.
+                    order.OrderDetails = new();
 
                     // проходим по всем элементам product
                     foreach (XElement productElement in orderElement.Elements("product"))
                     {
                         Product product = new();
+                        OrderDetail orderDetail = new()
+                        {
+                            Product = product
+                        };
 
                         temp = productElement.Element("quantity");
                         if (temp is not null)
                         {
-                            product.Quantity = int.Parse(temp.Value);
+                            orderDetail.Quantity = int.Parse(temp.Value);
                         }
 
                         temp = productElement.Element("name");
@@ -66,9 +69,13 @@ namespace OrdersParser.Services
                         if (temp is not null)
                         {
                             product.Price = decimal.Parse(temp.Value.Replace(',', '.'), cultureInfo);
+                            orderDetail.ResultPrice = product.Price;
                         }
+                        
+                        order.OrderDetails.Add(orderDetail);
 
-                        order.Products.Add(product);
+                        // Список товаров.
+                        productsList.Add(product);
                     }
 
                     XElement? userElement = orderElement.Element("user");
@@ -90,12 +97,9 @@ namespace OrdersParser.Services
                     }
 
                     ordersList.Add(order);
+                    
                 }
-
-                return ordersList;
             }
-
-            return null;
         }
     }
 }

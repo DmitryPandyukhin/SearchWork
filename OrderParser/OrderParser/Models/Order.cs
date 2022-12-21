@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +21,31 @@ namespace OrdersParser.Models
         public User User { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }
-    [Index("Name", IsUnique = true, Name = "IX1_Name")]
+    [Index("Name", "Price", IsUnique = true, Name = "IX1_Name")]
     internal class Product
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Product p = (Product)obj;
+                return (Name == p.Name) && (Price == p.Price);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Convert.ToInt32(Price)+Name.GetHashCode();
+        }
     }
     internal class OrderDetail
     {
@@ -44,5 +65,23 @@ namespace OrdersParser.Models
         public int UserId { get; set; }
         public string FIO { get; set; }
         public string Email { get; set; }
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                User p = (User)obj;
+                return (FIO == p.FIO);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return FIO.GetHashCode();
+        }
     }
 }

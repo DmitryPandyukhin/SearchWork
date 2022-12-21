@@ -9,10 +9,11 @@ namespace OrdersParser.Models
         public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MSSQLContext(DbContextOptions<MSSQLContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-KH5H7JO;Database=MyDB;
-Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
     }
 }

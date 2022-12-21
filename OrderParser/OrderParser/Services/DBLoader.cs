@@ -11,27 +11,36 @@ namespace OrdersParser.Services
                 //db.Database.EnsureDeleted();
                 //db.Database.EnsureCreated();
 
-                // детализация заказа
-                List<OrderDetail> orderDetailsList = new List<OrderDetail>();
-
-                // контроль уникальности пользователей
+                // Контроль уникальности заказа.
+                List<Order> checkedOrderList = new();
                 foreach (var order in ordersList)
                 {
+                    if (!db.Orders.Any(o => (o.No == order.No && o.Reg_date == order.Reg_date && o.Sum == order.Sum)))
+                      checkedOrderList.Add(order);
+                }
+
+                // Спиское детализации заказа.
+                List<OrderDetail> orderDetailsList = new List<OrderDetail>();
+                
+                foreach (var order in checkedOrderList)
+                {
+                    // Контроль уникальности пользователей.
                     order.UserId = db.Users.First(u => u.FIO == order.User.FIO)?.UserId ?? 0;
                     if (order.UserId != 0)
+                    {
                         order.User = null!;
-
-
-
-                    // контроль уникальности товаров м
-                    // заполнение детализации заказа
+                    }
+                    
+                    
                     foreach (var product in order.Products)
                     {
+                        // Детализации заказа.
                         OrderDetail orderDetail = new()
                         {
                             Order = order
                         };
 
+                        // Контроль уникальности товаров.
                         int Product_id = db.Products.First(p => p.Name == product.Name).ProductId;
                         if (Product_id != 0)
                         {
@@ -46,7 +55,6 @@ namespace OrdersParser.Services
                         orderDetailsList.Add(orderDetail);
                     }
                 }
-
 
                 db.Orders.AddRange(ordersList);
                 db.SaveChanges();

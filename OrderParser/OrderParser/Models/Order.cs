@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrdersParser.Models
 {
+    [Index("No", "Reg_date", "Sum", IsUnique = true, Name = "IX1_Order")]	
     internal class Order
     {
         public int OrderId { get; set; }

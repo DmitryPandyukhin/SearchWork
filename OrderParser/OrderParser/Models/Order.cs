@@ -17,13 +17,12 @@ namespace OrdersParser.Models
         public int UserId { get; set; }
         // Ссылка на пользователя.
         public User User { get; set; }
-        public List<Product> Products { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
     [Index("Name", IsUnique = true, Name = "IX1_Name")]
     internal class Product
     {
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
     }
@@ -36,6 +35,8 @@ namespace OrdersParser.Models
         public int ProductId { get; set; }
         // Ссылка на товар
         public Product Product { get; set; }
+        public int Quantity { get; set; }
+        public decimal ResultPrice { get; set; }
     }
     [Index("FIO", IsUnique = true, Name = "IX1_FIO")]
     internal class User
